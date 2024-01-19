@@ -15,34 +15,15 @@
 //
 //  Notes: For minimum Vcc required for SD24 module - see datasheet
 //         100nF cap btw Vref and AVss is recommended when using 1.2V ref
-//
-//               MSP430i20xx
-//             -----------------
-//         /|\|                |
-//          | |                |
-//          --|RST             |
-//            |                |
-//   Vin1+ -->|A0.0+      VREF |---+
-//   Vin1- -->|A0.0-           |   |
-//   Vin2+ -->|A1.0+           |  -+- 100nF
-//   Vin2- -->|A1.0-           |  -+-
-//   Vin3+ -->|A2.0+           |   |
-//   Vin3- -->|A2.0-      AVss |---+
-//
-//  T. Witt
-//  Yang Lu
-//  Texas Instruments, Inc
-//  June 2014
-//  Built with Code Composer Studio v5.5
 //******************************************************************************
 #include "driverlib.h"
 #include <msp430i2021.h>
 
 #define Num_of_Results   8
 
-/* Arrays to store SD24 conversion results */
-uint16_t Ch0results[Num_of_Results];
-uint16_t Ch1results[Num_of_Results];
+//Using single values to store the voltage measurments
+uint16_t Ch0results;
+uint16_t Ch1results;
 uint16_t i = 0;
 
 void main(void) {
@@ -96,31 +77,27 @@ void main(void) {
 
 }
 
-#if defined(__TI_COMPILER_VERSION__) || defined(__IAR_SYSTEMS_ICC__)
+
 #pragma vector=SD24_VECTOR
+
+//Function defined, with no return value and no parameters
 __interrupt void SD24_ISR(void) {
-#elif defined(__GNUC__)
-void __attribute__ ((interrupt(SD24_VECTOR))) SD24_ISR (void) {
-#else
-#error Compiler not supported!
-#endif
-    switch (__even_in_range(SD24IV,SD24IV_SD24MEM3)) {
+
+    switch (__even_in_range(SD24IV,SD24IV_SD24MEM1)) {
         case SD24IV_NONE: break;
         case SD24IV_SD24OVIFG: break;
         case SD24IV_SD24MEM0: break;
         case SD24IV_SD24MEM1:
                    // Save CH0 results (clears IFG)
-                   Ch0results[i] = SD24_getHighWordResults(SD24_BASE, SD24_CONVERTER_0);
+                   Ch0results = SD24_getHighWordResults(SD24_BASE, SD24_CONVERTER_0);
                    // Save CH1 results (clears IFG)
-                   Ch1results[i] = SD24_getHighWordResults(SD24_BASE, SD24_CONVERTER_1);
-                   // Save CH2 results (clears IFG)
-                   i++;
-                   if (i == Num_of_Results) {
-                       i = 0;
+                   Ch1results = SD24_getHighWordResults(SD24_BASE, SD24_CONVERTER_1);
+
+
+
                        __no_operation();           // SET BREAKPOINT HERE
-                   }
+
                    break;
-        case SD24IV_SD24MEM3: break;
         default: break;
     }
 }
