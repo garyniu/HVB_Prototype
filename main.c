@@ -29,8 +29,18 @@ uint16_t i = 0;
 void main(void) {
     // Stop WDT
     WDT_hold(WDT_BASE);
+
+    //P1.0, P1.1 controls output relays
+    P1DIR = (1 << 0) | (1 << 1);
     P1OUT = 0;
-    P1DIR = 0;
+
+    //P1.5 controls an LED
+
+    P1DIR |= (1 << 5);
+    P1OUT = 1 << 5;
+    //P1OUT = 0;
+
+    //P1.0:
 
     // Internal ref
     SD24_init(SD24_BASE, SD24_REF_INTERNAL);
@@ -65,21 +75,29 @@ void main(void) {
     __delay_cycles(3200);
 
     // Start conversion
-    SD24_startConverterConversion(SD24_BASE, SD24_CONVERTER_2);
+    SD24_startConverterConversion(SD24_BASE, SD24_CONVERTER_1);
     // Enter LPM0 w/ interrupts
-    __bis_SR_register(GIE); //removed LMP0 |, to test for active running
+    //__bis_SR_register(0b10000 | GIE); //LPM0 = 0x10 = 0b10000 (Bit mask to disable CPU)
 
-    int b;
-    while (1){
-        b++;
+
+    //General Program Flow:
+        //Polling:
+            //
+
+    for (;;){
+
+
+        P1OUT ^= (1 << 5);
+        P1OUT ^= 1 << 0;
+        for (i = 0; i < 40000; i++);
     }
 
 
 }
 
 
-#pragma vector=SD24_VECTOR
 
+#pragma vector=SD24_VECTOR
 //Function defined, with no return value and no parameters
 __interrupt void SD24_ISR(void) {
 
@@ -94,6 +112,11 @@ __interrupt void SD24_ISR(void) {
                    Ch1results = SD24_getHighWordResults(SD24_BASE, SD24_CONVERTER_1);
 
 
+                   //Assume the above values are real and updated.
+
+                   //If over defined threshold, open relays,
+
+
 
                        __no_operation();           // SET BREAKPOINT HERE
 
@@ -101,3 +124,13 @@ __interrupt void SD24_ISR(void) {
         default: break;
     }
 }
+
+//Interrupt vector for I2C communication
+//NOTE:
+    //I2C has higher priority interrupt compared to SD24
+#pragma vector=USCI_B0_VECTOR
+//Check example code for how to format intterupt
+__interrupt void I2C_ISR(void){
+
+}
+
