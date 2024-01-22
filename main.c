@@ -39,6 +39,7 @@ uint16_t i = 0;
 void main(void) {
     // Stop WDT
     WDT_hold(WDT_BASE);
+    printf("Hello World!\n");
 
     //P1.0, P1.1 controls output relays
     P1DIR = (1 << 0) | (1 << 1);
@@ -126,13 +127,13 @@ __interrupt void USCIB0_ISR(void) {
         case USCI_I2C_UCRXIFG1: break;
         case USCI_I2C_UCTXIFG1: break;
         case USCI_I2C_UCRXIFG0:
-            RXData[RXDataIndex++] = EUSCI_B_I2C_slaveGetData(EUSCI_B0_BASE);
+            //RXData[RXDataIndex++] = EUSCI_B_I2C_slaveGetData(EUSCI_B0_BASE);
 
             // Reset index if at end of array
             //Writes over old data
-            if(RXDataIndex == NUM_OF_RX_BYTES) {
-                RXDataIndex = 0;
-            }
+            //if(RXDataIndex == NUM_OF_RX_BYTES) {
+            //    RXDataIndex = 0;
+            //}
 
             break;
         case USCI_I2C_UCTXIFG0: break;

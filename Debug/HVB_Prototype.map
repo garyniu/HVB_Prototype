@@ -1,7 +1,7 @@
 ******************************************************************************
                   MSP430 Linker PC v21.6.1                     
 ******************************************************************************
->> Linked Sun Jan 21 17:45:59 2024
+>> Linked Mon Jan 22 15:43:43 2024
 
 OUTPUT FILE NAME:   <HVB_Prototype.out>
 ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 00009192
@@ -14,9 +14,9 @@ MEMORY CONFIGURATION
   SFR                   00000000   00000010  00000000  00000010  RWIX
   PERIPHERALS_8BIT      00000010   000000f0  00000000  000000f0  RWIX
   PERIPHERALS_16BIT     00000100   00000100  00000000  00000100  RWIX
-  RAM                   00000200   00000800  0000036c  00000494  RWIX
+  RAM                   00000200   00000800  00000448  000003b8  RWIX
   INFOA                 00001000   00000400  00000000  00000400  RWIX
-  FLASH                 00008000   00007fdc  000013be  00006c1e  RWIX
+  FLASH                 00008000   00007fdc  000013c6  00006c16  RWIX
   JTAGSIGNATURE         0000ffdc   00000004  00000004  00000000  RWIX  ffff 
   INT00                 0000ffe0   00000002  00000000  00000002  RWIX
   INT01                 0000ffe2   00000002  00000002  00000000  RWIX
@@ -41,35 +41,35 @@ SECTION ALLOCATION MAP
  output                                  attributes/
 section   page    origin      length       input sections
 --------  ----  ----------  ----------   ----------------
-.data      0    00000320    000000fe     UNINITIALIZED
-                  00000320    00000078     rts430_eabi.lib : defs.c.obj (.data:_ftable)
-                  00000398    0000004e                     : host_device.c.obj (.data:_device)
-                  000003e6    00000028                     : host_device.c.obj (.data:_stream)
-                  0000040e    00000002                     : exit_gvars.c.obj (.data:__TI_cleanup_ptr)
-                  00000410    00000002                     : exit_gvars.c.obj (.data:__TI_dtors_ptr)
-                  00000412    00000002                     : _lock.c.obj (.data:_lock)
-                  00000414    00000002                     : _lock.c.obj (.data:_unlock)
-                  00000416    00000002     main.obj (.data)
-                  00000418    00000002     rts430_eabi.lib : defs.c.obj (.data)
-                  0000041a    00000002                     : exit.c.obj (.data)
-                  0000041c    00000002                     : memory.c.obj (.data)
+.data      0    0000044c    000000fe     UNINITIALIZED
+                  0000044c    00000078     rts430_eabi.lib : defs.c.obj (.data:_ftable)
+                  000004c4    0000004e                     : host_device.c.obj (.data:_device)
+                  00000512    00000028                     : host_device.c.obj (.data:_stream)
+                  0000053a    00000002                     : exit_gvars.c.obj (.data:__TI_cleanup_ptr)
+                  0000053c    00000002                     : exit_gvars.c.obj (.data:__TI_dtors_ptr)
+                  0000053e    00000002                     : _lock.c.obj (.data:_lock)
+                  00000540    00000002                     : _lock.c.obj (.data:_unlock)
+                  00000542    00000002     main.obj (.data)
+                  00000544    00000002     rts430_eabi.lib : defs.c.obj (.data)
+                  00000546    00000002                     : exit.c.obj (.data)
+                  00000548    00000002                     : memory.c.obj (.data)
 
-.bss       0    0000041e    000000ae     UNINITIALIZED
-                  0000041e    000000a0     (.common:__TI_tmpnams)
-                  000004be    00000008     (.common:parmbuf)
-                  000004c6    00000002     rts430_eabi.lib : memory.c.obj (.bss)
-                  000004c8    00000002     (.common:Ch0results)
-                  000004ca    00000002     (.common:Ch1results)
+.bss       0    0000054a    000000ae     UNINITIALIZED
+                  0000054a    000000a0     (.common:__TI_tmpnams)
+                  000005ea    00000008     (.common:parmbuf)
+                  000005f2    00000002     rts430_eabi.lib : memory.c.obj (.bss)
+                  000005f4    00000002     (.common:Ch0results)
+                  000005f6    00000002     (.common:Ch1results)
 
-.sysmem    0    000004cc    00000050     UNINITIALIZED
-                  000004cc    00000008     rts430_eabi.lib : memory.c.obj (.sysmem)
-                  000004d4    00000048     --HOLE--
+.sysmem    0    00000200    0000012c     UNINITIALIZED
+                  00000200    00000008     rts430_eabi.lib : memory.c.obj (.sysmem)
+                  00000208    00000124     --HOLE--
 
 .stack     0    000009b0    00000050     UNINITIALIZED
                   000009b0    00000002     rts430_eabi.lib : boot.c.obj (.stack)
                   000009b2    0000004e     --HOLE--
 
-.text      0    00008000    00001320     
+.text      0    00008000    00001328     
                   00008000    00000122     main.obj (.text:main)
                   00008122    00000116     rts430_eabi.lib : _printfi.c.obj (.text:__TI_printfi_minimal:_setfield___TI_printfi_minimal)
                   00008238    000000f6                     : memory.c.obj (.text:aligned_alloc)
@@ -130,29 +130,29 @@ section   page    origin      length       input sections
                   000092c8    00000010                     : epilog.asm.obj (.text)
                   000092d8    00000010                     : strcpy.c.obj (.text:strcpy)
                   000092e8    0000000e                     : strlen.c.obj (.text:strlen)
-                  000092f6    00000008                     : isr_trap.asm.obj (.text:_isr:__TI_ISR_TRAP)
-                  000092fe    00000008                     : memory.c.obj (.text:malloc)
-                  00009306    00000006                     : printf.c.obj (.text:_outc)
-                  0000930c    00000006                     : exit.c.obj (.text:abort)
-                  00009312    00000004                     : printf.c.obj (.text:_outs)
-                  00009316    00000004                     : pre_init.c.obj (.text:_system_pre_init)
-                  0000931a    00000002     main.obj (.text:I2C_ISR)
-                  0000931c    00000002     rts430_eabi.lib : _lock.c.obj (.text:_nop)
-                  0000931e    00000002                     : startup.c.obj (.text:_system_post_cinit)
+                  000092f6    0000000a     main.obj (.text:USCIB0_ISR)
+                  00009300    00000008     rts430_eabi.lib : isr_trap.asm.obj (.text:_isr:__TI_ISR_TRAP)
+                  00009308    00000008                     : memory.c.obj (.text:malloc)
+                  00009310    00000006                     : printf.c.obj (.text:_outc)
+                  00009316    00000006                     : exit.c.obj (.text:abort)
+                  0000931c    00000004                     : printf.c.obj (.text:_outs)
+                  00009320    00000004                     : pre_init.c.obj (.text:_system_pre_init)
+                  00009324    00000002                     : _lock.c.obj (.text:_nop)
+                  00009326    00000002                     : startup.c.obj (.text:_system_post_cinit)
 
-.const     0    00009320    00000048     
-                  00009320    00000026     rts430_eabi.lib : _printfi.c.obj (.const:.string)
-                  00009346    00000016     main.obj (.const:.string)
-                  0000935c    0000000c     main.obj (.const:$P$T0$1)
+.const     0    00009328    00000048     
+                  00009328    00000026     rts430_eabi.lib : _printfi.c.obj (.const:.string)
+                  0000934e    00000016     main.obj (.const:.string)
+                  00009364    0000000c     main.obj (.const:$P$T0$1)
 
-.cinit     0    00009368    00000056     
-                  00009368    00000044     (.cinit..data.load) [load image, compression = lzss]
-                  000093ac    00000006     (__TI_handler_table)
-                  000093b2    00000004     (.cinit..bss.load) [load image, compression = zero_init]
-                  000093b6    00000008     (__TI_cinit_table)
+.cinit     0    00009370    00000056     
+                  00009370    00000044     (.cinit..data.load) [load image, compression = lzss]
+                  000093b4    00000006     (__TI_handler_table)
+                  000093ba    00000004     (.cinit..bss.load) [load image, compression = zero_init]
+                  000093be    00000008     (__TI_cinit_table)
 
-.cio       0    00000200    00000120     UNINITIALIZED
-                  00000200    00000120     rts430_eabi.lib : trgmsg.c.obj (.cio)
+.cio       0    0000032c    00000120     UNINITIALIZED
+                  0000032c    00000120     rts430_eabi.lib : trgmsg.c.obj (.cio)
 
 .binit     0    00008000    00000000     
 
@@ -210,9 +210,9 @@ MODULE SUMMARY
        Module                       code   ro data   rw data
        ------                       ----   -------   -------
     .\
-       main.obj                     292    36        6      
+       main.obj                     300    36        6      
     +--+----------------------------+------+---------+---------+
-       Total:                       292    36        6      
+       Total:                       300    36        6      
                                                             
     .\driverlib\MSP430i2xx\
        sd24.obj                     186    0         0      
@@ -220,7 +220,7 @@ MODULE SUMMARY
     +--+----------------------------+------+---------+---------+
        Total:                       208    0         0      
                                                             
-    C:\ti\ccs1250\ccs\tools\compiler\ti-cgt-msp430_21.6.1.LTS\lib\rts430_eabi.lib
+    C:\ti\ccs1260\ccs\tools\compiler\ti-cgt-msp430_21.6.1.LTS\lib\rts430_eabi.lib
        _printfi.c.obj               716    38        0      
        memory.c.obj                 636    0         4      
        trgmsg.c.obj                 90     0         288    
@@ -287,23 +287,23 @@ MODULE SUMMARY
     +--+----------------------------+------+---------+---------+
        Total:                       4396   62        710    
                                                             
-       Heap:                        0      0         80     
+       Heap:                        0      0         300    
        Stack:                       0      0         80     
        Linker Generated:            0      86        0      
     +--+----------------------------+------+---------+---------+
-       Grand Total:                 4896   184       876    
+       Grand Total:                 4904   184       1096   
 
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 000093b6 records: 2, size/record: 4, table size: 8
-	.data: load addr=00009368, load size=00000044 bytes, run addr=00000320, run size=000000fe bytes, compression=lzss
-	.bss: load addr=000093b2, load size=00000004 bytes, run addr=0000041e, run size=000000ae bytes, compression=zero_init
+__TI_cinit_table @ 000093be records: 2, size/record: 4, table size: 8
+	.data: load addr=00009370, load size=00000044 bytes, run addr=0000044c, run size=000000fe bytes, compression=lzss
+	.bss: load addr=000093ba, load size=00000004 bytes, run addr=0000054a, run size=000000ae bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 000093ac records: 3, size/record: 2, table size: 6
+__TI_handler_table @ 000093b4 records: 3, size/record: 2, table size: 6
 	index: 0, handler: __TI_zero_init
 	index: 1, handler: __TI_decompress_lzss
 	index: 2, handler: __TI_decompress_none
@@ -313,7 +313,7 @@ GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name
 
 address   name                           
 -------   ----                           
-0000930c  C$$EXIT                        
+00009316  C$$EXIT                        
 00009006  C$$IO$$                        
 00000050  CSCTL0                         
 00000051  CSCTL1                         
@@ -321,8 +321,8 @@ address   name
 00000055  CSERTCAL                       
 00000052  CSIRFCAL                       
 00000053  CSIRTCAL                       
-000004c8  Ch0results                     
-000004ca  Ch1results                     
+000005f4  Ch0results                     
+000005f6  Ch1results                     
 00000128  FCTL1                          
 0000012a  FCTL2                          
 0000012c  FCTL3                          
@@ -333,7 +333,6 @@ address   name
 00008a60  HOSTrename                     
 00008eba  HOSTunlink                     
 00008b98  HOSTwrite                      
-0000931a  I2C_ISR                        
 00000000  IE1                            
 00000002  IFG1                           
 00000060  LPM45CTL                       
@@ -487,29 +486,30 @@ address   name
 000001ce  UCB0TXBUF                      
 000001cf  UCB0TXBUF_H                    
 000001ce  UCB0TXBUF_L                    
+000092f6  USCIB0_ISR                     
 00000061  VMONCTL                        
 00000120  WDTCTL                         
 00009216  WDT_hold                       
-00000200  _CIOBUF_                       
+0000032c  _CIOBUF_                       
 00000a00  __STACK_END                    
 00000050  __STACK_SIZE                   
-00000050  __SYSMEM_SIZE                  
-000093b6  __TI_CINIT_Base                
-000093be  __TI_CINIT_Limit               
-000093be  __TI_CINIT_Warm                
-000093ac  __TI_Handler_Table_Base        
-000093b2  __TI_Handler_Table_Limit       
-000092f6  __TI_ISR_TRAP                  
+0000012c  __SYSMEM_SIZE                  
+000093be  __TI_CINIT_Base                
+000093c6  __TI_CINIT_Limit               
+000093c6  __TI_CINIT_Warm                
+000093b4  __TI_Handler_Table_Base        
+000093ba  __TI_Handler_Table_Limit       
+00009300  __TI_ISR_TRAP                  
 00008e78  __TI_auto_init_nobinit_nopinit 
 00008f74  __TI_cleanup                   
-0000040e  __TI_cleanup_ptr               
+0000053a  __TI_cleanup_ptr               
 0000897e  __TI_closefile                 
 00008888  __TI_decompress_lzss           
 000092a4  __TI_decompress_none           
 00008bfa  __TI_doflush                   
-00000410  __TI_dtors_ptr                 
-0000041a  __TI_enable_exit_profile_output
-00000418  __TI_ft_end                    
+0000053c  __TI_dtors_ptr                 
+00000546  __TI_enable_exit_profile_output
+00000544  __TI_ft_end                    
 0000ffe2  __TI_int01                     
 0000ffe8  __TI_int04                     
 0000ffea  __TI_int05                     
@@ -527,7 +527,7 @@ ffffffff  __TI_pprof_out_hndl
 ffffffff  __TI_prof_data_size            
 ffffffff  __TI_prof_data_start           
 0000900a  __TI_readmsg                   
-0000041e  __TI_tmpnams                   
+0000054a  __TI_tmpnams                   
 00008fdc  __TI_writemsg                  
 00008904  __TI_wrt_ok                    
 00009242  __TI_zero_init_nomemset        
@@ -590,18 +590,18 @@ ffffffff  __c_args__
 00008d3e  __mspabi_srli_8                
 00008d3a  __mspabi_srli_9                
 00009192  _c_int00_noargs                
-00000398  _device                        
-00000320  _ftable                        
-00000412  _lock                          
-0000931c  _nop                           
+000004c4  _device                        
+0000044c  _ftable                        
+0000053e  _lock                          
+00009324  _nop                           
 0000fffe  _reset_vector                  
 000009b0  _stack                         
-000003e6  _stream                        
-000004cc  _sys_memory                    
-0000931e  _system_post_cinit             
-00009316  _system_pre_init               
-00000414  _unlock                        
-0000930c  abort                          
+00000512  _stream                        
+00000200  _sys_memory                    
+00009326  _system_post_cinit             
+00009320  _system_pre_init               
+00000540  _unlock                        
+00009316  abort                          
 00008238  aligned_alloc                  
 00008d60  close                          
 00008e34  exit                           
@@ -612,16 +612,16 @@ ffffffff  __c_args__
 000089f0  fseek                          
 000089f0  fseeko                         
 00008cbc  getdevice                      
-00000416  i                              
+00000542  i                              
 000090de  lseek                          
 00008000  main                           
-000092fe  malloc                         
+00009308  malloc                         
 00008238  memalign                       
 00009170  memccpy                        
 00009256  memchr                         
 000092b6  memcpy                         
 0000926a  memset                         
-000004be  parmbuf                        
+000005ea  parmbuf                        
 00008f38  printf                         
 00008770  putc                           
 000090b6  remove                         
@@ -669,7 +669,6 @@ address   name
 0000002e  P2IV                           
 00000050  CSCTL0                         
 00000050  __STACK_SIZE                   
-00000050  __SYSMEM_SIZE                  
 00000051  CSCTL1                         
 00000052  CSIRFCAL                       
 00000053  CSIRTCAL                       
@@ -694,6 +693,7 @@ address   name
 00000128  FCTL1                          
 0000012a  FCTL2                          
 0000012c  FCTL3                          
+0000012c  __SYSMEM_SIZE                  
 0000012e  TA0IV                          
 00000130  MPY                            
 00000132  MPYS                           
@@ -800,22 +800,22 @@ address   name
 000001ee  UCB0IV                         
 000001f0  SD24IV                         
 000001fe  SYSJTAGDIS                     
-00000200  _CIOBUF_                       
-00000320  _ftable                        
-00000398  _device                        
-000003e6  _stream                        
-0000040e  __TI_cleanup_ptr               
-00000410  __TI_dtors_ptr                 
-00000412  _lock                          
-00000414  _unlock                        
-00000416  i                              
-00000418  __TI_ft_end                    
-0000041a  __TI_enable_exit_profile_output
-0000041e  __TI_tmpnams                   
-000004be  parmbuf                        
-000004c8  Ch0results                     
-000004ca  Ch1results                     
-000004cc  _sys_memory                    
+00000200  _sys_memory                    
+0000032c  _CIOBUF_                       
+0000044c  _ftable                        
+000004c4  _device                        
+00000512  _stream                        
+0000053a  __TI_cleanup_ptr               
+0000053c  __TI_dtors_ptr                 
+0000053e  _lock                          
+00000540  _unlock                        
+00000542  i                              
+00000544  __TI_ft_end                    
+00000546  __TI_enable_exit_profile_output
+0000054a  __TI_tmpnams                   
+000005ea  parmbuf                        
+000005f4  Ch0results                     
+000005f6  Ch1results                     
 000009b0  _stack                         
 00000a00  __STACK_END                    
 00008000  main                           
@@ -929,19 +929,19 @@ address   name
 000092d4  __mspabi_func_epilog_1         
 000092d8  strcpy                         
 000092e8  strlen                         
-000092f6  __TI_ISR_TRAP                  
-000092fe  malloc                         
-0000930c  C$$EXIT                        
-0000930c  abort                          
-00009316  _system_pre_init               
-0000931a  I2C_ISR                        
-0000931c  _nop                           
-0000931e  _system_post_cinit             
-000093ac  __TI_Handler_Table_Base        
-000093b2  __TI_Handler_Table_Limit       
-000093b6  __TI_CINIT_Base                
-000093be  __TI_CINIT_Limit               
-000093be  __TI_CINIT_Warm                
+000092f6  USCIB0_ISR                     
+00009300  __TI_ISR_TRAP                  
+00009308  malloc                         
+00009316  C$$EXIT                        
+00009316  abort                          
+00009320  _system_pre_init               
+00009324  _nop                           
+00009326  _system_post_cinit             
+000093b4  __TI_Handler_Table_Base        
+000093ba  __TI_Handler_Table_Limit       
+000093be  __TI_CINIT_Base                
+000093c6  __TI_CINIT_Limit               
+000093c6  __TI_CINIT_Warm                
 0000ffe2  __TI_int01                     
 0000ffe8  __TI_int04                     
 0000ffea  __TI_int05                     
