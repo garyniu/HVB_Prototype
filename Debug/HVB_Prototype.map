@@ -1,10 +1,10 @@
 ******************************************************************************
                   MSP430 Linker PC v21.6.1                     
 ******************************************************************************
->> Linked Mon Jan 22 15:43:43 2024
+>> Linked Mon Jan 22 16:53:16 2024
 
 OUTPUT FILE NAME:   <HVB_Prototype.out>
-ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 00009192
+ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 00009190
 
 
 MEMORY CONFIGURATION
@@ -16,7 +16,7 @@ MEMORY CONFIGURATION
   PERIPHERALS_16BIT     00000100   00000100  00000000  00000100  RWIX
   RAM                   00000200   00000800  00000448  000003b8  RWIX
   INFOA                 00001000   00000400  00000000  00000400  RWIX
-  FLASH                 00008000   00007fdc  000013c6  00006c16  RWIX
+  FLASH                 00008000   00007fdc  000013c4  00006c18  RWIX
   JTAGSIGNATURE         0000ffdc   00000004  00000004  00000000  RWIX  ffff 
   INT00                 0000ffe0   00000002  00000000  00000002  RWIX
   INT01                 0000ffe2   00000002  00000002  00000000  RWIX
@@ -69,87 +69,88 @@ section   page    origin      length       input sections
                   000009b0    00000002     rts430_eabi.lib : boot.c.obj (.stack)
                   000009b2    0000004e     --HOLE--
 
-.text      0    00008000    00001328     
-                  00008000    00000122     main.obj (.text:main)
-                  00008122    00000116     rts430_eabi.lib : _printfi.c.obj (.text:__TI_printfi_minimal:_setfield___TI_printfi_minimal)
-                  00008238    000000f6                     : memory.c.obj (.text:aligned_alloc)
-                  0000832e    000000ec                     : _printfi.c.obj (.text:__TI_printfi_minimal:__TI_printfi_minimal)
-                  0000841a    000000ea                     : fputs.c.obj (.text:fputs)
-                  00008504    000000d2                     : memory.c.obj (.text:free)
-                  000085d6    000000d0                     : setvbuf.c.obj (.text:setvbuf)
-                  000086a6    000000ca                     : _printfi.c.obj (.text:__TI_printfi_minimal:_pproc_diouxp___TI_printfi_minimal)
-                  00008770    00000090                     : fputc.c.obj (.text:fputc)
-                  00008800    00000088                     : hostlseek.c.obj (.text:HOSTlseek)
-                  00008888    0000007c                     : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
-                  00008904    0000007a                     : _io_perm.c.obj (.text:__TI_wrt_ok)
-                  0000897e    00000072                     : fclose.c.obj (.text:__TI_closefile)
-                  000089f0    00000070                     : fseek.c.obj (.text:fseeko)
-                  00008a60    0000006a                     : hostrename.c.obj (.text:HOSTrename)
-                  00008aca    00000068                     : memory.c.obj (.text:split)
-                  00008b32    00000066                     : hostopen.c.obj (.text:HOSTopen)
-                  00008b98    00000062                     : hostwrite.c.obj (.text:HOSTwrite)
-                  00008bfa    00000062                     : fflush.c.obj (.text:__TI_doflush)
-                  00008c5c    00000060                     : hostread.c.obj (.text:HOSTread)
-                  00008cbc    00000058                     : getdevice.c.obj (.text:getdevice)
-                  00008d14    0000004c                     : lsr16.asm.obj (.text)
-                  00008d60    0000004a                     : close.c.obj (.text:close)
-                  00008daa    00000046     sd24.obj (.text:SD24_initConverterAdvanced)
-                  00008df0    00000044     rts430_eabi.lib : hostclose.c.obj (.text:HOSTclose)
-                  00008e34    00000044                     : exit.c.obj (.text:exit)
-                  00008e78    00000042                     : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit:__TI_auto_init_nobinit_nopinit)
-                  00008eba    00000040                     : hostunlink.c.obj (.text:HOSTunlink)
-                  00008efa    0000003e                     : lsl32.asm.obj (.text:l_lsl_const)
-                  00008f38    0000003c                     : printf.c.obj (.text:printf)
-                  00008f74    00000034                     : fopen.c.obj (.text:__TI_cleanup)
-                  00008fa8    00000034                     : getdevice.c.obj (.text:finddevice)
-                  00008fdc    0000002e                     : trgmsg.c.obj (.text:__TI_writemsg)
-                  0000900a    0000002c                     : trgmsg.c.obj (.text:__TI_readmsg)
-                  00009036    0000002c                     : lsl16.asm.obj (.text)
-                  00009062    0000002c                     : strncpy.c.obj (.text:strncpy)
-                  0000908e    00000028                     : memory.c.obj (.text:free_list_insert)
-                  000090b6    00000028                     : unlink.c.obj (.text:unlink)
-                  000090de    00000026                     : lseek.c.obj (.text:lseek)
-                  00009104    00000024     sd24.obj (.text:SD24_enableInterrupt)
-                  00009128    00000024     sd24.obj (.text:SD24_init)
-                  0000914c    00000024     rts430_eabi.lib : write.c.obj (.text:write)
-                  00009170    00000022                     : memccpy.c.obj (.text:memccpy)
-                  00009192    0000001c                     : boot.c.obj (.text:_c_int00_noargs)
-                  000091ae    0000001c                     : memory.c.obj (.text:free_list_remove)
-                  000091ca    0000001a     sd24.obj (.text:SD24_getHighWordResults)
-                  000091e4    0000001a     rts430_eabi.lib : strchr.c.obj (.text:strchr)
-                  000091fe    00000018                     : strcmp.c.obj (.text:strcmp)
-                  00009216    00000016     wdt.obj (.text:WDT_hold)
-                  0000922c    00000016     rts430_eabi.lib : div16u.asm.obj (.text)
-                  00009242    00000014                     : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset:__TI_zero_init_nomemset)
-                  00009256    00000014                     : memchr.c.obj (.text:memchr)
-                  0000926a    00000014                     : memset.c.obj (.text:memset)
-                  0000927e    00000014                     : mult16_hw.asm.obj (.text)
-                  00009292    00000012     sd24.obj (.text:SD24_startConverterConversion)
-                  000092a4    00000012     rts430_eabi.lib : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
-                  000092b6    00000012                     : memcpy.c.obj (.text:memcpy)
-                  000092c8    00000010                     : epilog.asm.obj (.text)
-                  000092d8    00000010                     : strcpy.c.obj (.text:strcpy)
-                  000092e8    0000000e                     : strlen.c.obj (.text:strlen)
-                  000092f6    0000000a     main.obj (.text:USCIB0_ISR)
-                  00009300    00000008     rts430_eabi.lib : isr_trap.asm.obj (.text:_isr:__TI_ISR_TRAP)
-                  00009308    00000008                     : memory.c.obj (.text:malloc)
-                  00009310    00000006                     : printf.c.obj (.text:_outc)
-                  00009316    00000006                     : exit.c.obj (.text:abort)
-                  0000931c    00000004                     : printf.c.obj (.text:_outs)
-                  00009320    00000004                     : pre_init.c.obj (.text:_system_pre_init)
-                  00009324    00000002                     : _lock.c.obj (.text:_nop)
-                  00009326    00000002                     : startup.c.obj (.text:_system_post_cinit)
+.text      0    00008000    00001326     
+                  00008000    00000116     rts430_eabi.lib : _printfi.c.obj (.text:__TI_printfi_minimal:_setfield___TI_printfi_minimal)
+                  00008116    000000f6                     : memory.c.obj (.text:aligned_alloc)
+                  0000820c    000000ec                     : _printfi.c.obj (.text:__TI_printfi_minimal:__TI_printfi_minimal)
+                  000082f8    000000ea                     : fputs.c.obj (.text:fputs)
+                  000083e2    000000d2                     : memory.c.obj (.text:free)
+                  000084b4    000000d0                     : setvbuf.c.obj (.text:setvbuf)
+                  00008584    000000ca                     : _printfi.c.obj (.text:__TI_printfi_minimal:_pproc_diouxp___TI_printfi_minimal)
+                  0000864e    0000009e     main.obj (.text:init_sd24)
+                  000086ec    00000090     rts430_eabi.lib : fputc.c.obj (.text:fputc)
+                  0000877c    00000088                     : hostlseek.c.obj (.text:HOSTlseek)
+                  00008804    00000082     main.obj (.text:main)
+                  00008886    0000007c     rts430_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
+                  00008902    0000007a                     : _io_perm.c.obj (.text:__TI_wrt_ok)
+                  0000897c    00000072                     : fclose.c.obj (.text:__TI_closefile)
+                  000089ee    00000070                     : fseek.c.obj (.text:fseeko)
+                  00008a5e    0000006a                     : hostrename.c.obj (.text:HOSTrename)
+                  00008ac8    00000068                     : memory.c.obj (.text:split)
+                  00008b30    00000066                     : hostopen.c.obj (.text:HOSTopen)
+                  00008b96    00000062                     : hostwrite.c.obj (.text:HOSTwrite)
+                  00008bf8    00000062                     : fflush.c.obj (.text:__TI_doflush)
+                  00008c5a    00000060                     : hostread.c.obj (.text:HOSTread)
+                  00008cba    00000058                     : getdevice.c.obj (.text:getdevice)
+                  00008d12    0000004c                     : lsr16.asm.obj (.text)
+                  00008d5e    0000004a                     : close.c.obj (.text:close)
+                  00008da8    00000046     sd24.obj (.text:SD24_initConverterAdvanced)
+                  00008dee    00000044     rts430_eabi.lib : hostclose.c.obj (.text:HOSTclose)
+                  00008e32    00000044                     : exit.c.obj (.text:exit)
+                  00008e76    00000042                     : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit:__TI_auto_init_nobinit_nopinit)
+                  00008eb8    00000040                     : hostunlink.c.obj (.text:HOSTunlink)
+                  00008ef8    0000003e                     : lsl32.asm.obj (.text:l_lsl_const)
+                  00008f36    0000003c                     : printf.c.obj (.text:printf)
+                  00008f72    00000034                     : fopen.c.obj (.text:__TI_cleanup)
+                  00008fa6    00000034                     : getdevice.c.obj (.text:finddevice)
+                  00008fda    0000002e                     : trgmsg.c.obj (.text:__TI_writemsg)
+                  00009008    0000002c                     : trgmsg.c.obj (.text:__TI_readmsg)
+                  00009034    0000002c                     : lsl16.asm.obj (.text)
+                  00009060    0000002c                     : strncpy.c.obj (.text:strncpy)
+                  0000908c    00000028                     : memory.c.obj (.text:free_list_insert)
+                  000090b4    00000028                     : unlink.c.obj (.text:unlink)
+                  000090dc    00000026                     : lseek.c.obj (.text:lseek)
+                  00009102    00000024     sd24.obj (.text:SD24_enableInterrupt)
+                  00009126    00000024     sd24.obj (.text:SD24_init)
+                  0000914a    00000024     rts430_eabi.lib : write.c.obj (.text:write)
+                  0000916e    00000022                     : memccpy.c.obj (.text:memccpy)
+                  00009190    0000001c                     : boot.c.obj (.text:_c_int00_noargs)
+                  000091ac    0000001c                     : memory.c.obj (.text:free_list_remove)
+                  000091c8    0000001a     sd24.obj (.text:SD24_getHighWordResults)
+                  000091e2    0000001a     rts430_eabi.lib : strchr.c.obj (.text:strchr)
+                  000091fc    00000018                     : strcmp.c.obj (.text:strcmp)
+                  00009214    00000016     wdt.obj (.text:WDT_hold)
+                  0000922a    00000016     rts430_eabi.lib : div16u.asm.obj (.text)
+                  00009240    00000014                     : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset:__TI_zero_init_nomemset)
+                  00009254    00000014                     : memchr.c.obj (.text:memchr)
+                  00009268    00000014                     : memset.c.obj (.text:memset)
+                  0000927c    00000014                     : mult16_hw.asm.obj (.text)
+                  00009290    00000012     sd24.obj (.text:SD24_startConverterConversion)
+                  000092a2    00000012     rts430_eabi.lib : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
+                  000092b4    00000012                     : memcpy.c.obj (.text:memcpy)
+                  000092c6    00000010                     : epilog.asm.obj (.text)
+                  000092d6    00000010                     : strcpy.c.obj (.text:strcpy)
+                  000092e6    0000000e                     : strlen.c.obj (.text:strlen)
+                  000092f4    0000000a     main.obj (.text:USCIB0_ISR)
+                  000092fe    00000008     rts430_eabi.lib : isr_trap.asm.obj (.text:_isr:__TI_ISR_TRAP)
+                  00009306    00000008                     : memory.c.obj (.text:malloc)
+                  0000930e    00000006                     : printf.c.obj (.text:_outc)
+                  00009314    00000006                     : exit.c.obj (.text:abort)
+                  0000931a    00000004                     : printf.c.obj (.text:_outs)
+                  0000931e    00000004                     : pre_init.c.obj (.text:_system_pre_init)
+                  00009322    00000002                     : _lock.c.obj (.text:_nop)
+                  00009324    00000002                     : startup.c.obj (.text:_system_post_cinit)
 
-.const     0    00009328    00000048     
-                  00009328    00000026     rts430_eabi.lib : _printfi.c.obj (.const:.string)
-                  0000934e    00000016     main.obj (.const:.string)
-                  00009364    0000000c     main.obj (.const:$P$T0$1)
+.const     0    00009326    00000048     
+                  00009326    00000026     rts430_eabi.lib : _printfi.c.obj (.const:.string)
+                  0000934c    00000016     main.obj (.const:.string)
+                  00009362    0000000c     main.obj (.const:$P$T0$1)
 
-.cinit     0    00009370    00000056     
-                  00009370    00000044     (.cinit..data.load) [load image, compression = lzss]
-                  000093b4    00000006     (__TI_handler_table)
-                  000093ba    00000004     (.cinit..bss.load) [load image, compression = zero_init]
-                  000093be    00000008     (__TI_cinit_table)
+.cinit     0    0000936e    00000056     
+                  0000936e    00000044     (.cinit..data.load) [load image, compression = lzss]
+                  000093b2    00000006     (__TI_handler_table)
+                  000093b8    00000004     (.cinit..bss.load) [load image, compression = zero_init]
+                  000093bc    00000008     (__TI_cinit_table)
 
 .cio       0    0000032c    00000120     UNINITIALIZED
                   0000032c    00000120     rts430_eabi.lib : trgmsg.c.obj (.cio)
@@ -210,9 +211,9 @@ MODULE SUMMARY
        Module                       code   ro data   rw data
        ------                       ----   -------   -------
     .\
-       main.obj                     300    36        6      
+       main.obj                     298    36        6      
     +--+----------------------------+------+---------+---------+
-       Total:                       300    36        6      
+       Total:                       298    36        6      
                                                             
     .\driverlib\MSP430i2xx\
        sd24.obj                     186    0         0      
@@ -291,19 +292,19 @@ MODULE SUMMARY
        Stack:                       0      0         80     
        Linker Generated:            0      86        0      
     +--+----------------------------+------+---------+---------+
-       Grand Total:                 4904   184       1096   
+       Grand Total:                 4902   184       1096   
 
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 000093be records: 2, size/record: 4, table size: 8
-	.data: load addr=00009370, load size=00000044 bytes, run addr=0000044c, run size=000000fe bytes, compression=lzss
-	.bss: load addr=000093ba, load size=00000004 bytes, run addr=0000054a, run size=000000ae bytes, compression=zero_init
+__TI_cinit_table @ 000093bc records: 2, size/record: 4, table size: 8
+	.data: load addr=0000936e, load size=00000044 bytes, run addr=0000044c, run size=000000fe bytes, compression=lzss
+	.bss: load addr=000093b8, load size=00000004 bytes, run addr=0000054a, run size=000000ae bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 000093b4 records: 3, size/record: 2, table size: 6
+__TI_handler_table @ 000093b2 records: 3, size/record: 2, table size: 6
 	index: 0, handler: __TI_zero_init
 	index: 1, handler: __TI_decompress_lzss
 	index: 2, handler: __TI_decompress_none
@@ -313,8 +314,8 @@ GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name
 
 address   name                           
 -------   ----                           
-00009316  C$$EXIT                        
-00009006  C$$IO$$                        
+00009314  C$$EXIT                        
+00009004  C$$IO$$                        
 00000050  CSCTL0                         
 00000051  CSCTL1                         
 00000054  CSERFCAL                       
@@ -326,13 +327,13 @@ address   name
 00000128  FCTL1                          
 0000012a  FCTL2                          
 0000012c  FCTL3                          
-00008df0  HOSTclose                      
-00008800  HOSTlseek                      
-00008b32  HOSTopen                       
-00008c5c  HOSTread                       
-00008a60  HOSTrename                     
-00008eba  HOSTunlink                     
-00008b98  HOSTwrite                      
+00008dee  HOSTclose                      
+0000877c  HOSTlseek                      
+00008b30  HOSTopen                       
+00008c5a  HOSTread                       
+00008a5e  HOSTrename                     
+00008eb8  HOSTunlink                     
+00008b96  HOSTwrite                      
 00000000  IE1                            
 00000002  IFG1                           
 00000060  LPM45CTL                       
@@ -382,11 +383,11 @@ address   name
 000000b8  SD24PRE0                       
 000000b9  SD24PRE1                       
 000000bf  SD24TRIM                       
-00009104  SD24_enableInterrupt           
-000091ca  SD24_getHighWordResults        
-00009128  SD24_init                      
-00008daa  SD24_initConverterAdvanced     
-00009292  SD24_startConverterConversion  
+00009102  SD24_enableInterrupt           
+000091c8  SD24_getHighWordResults        
+00009126  SD24_init                      
+00008da8  SD24_initConverterAdvanced     
+00009290  SD24_startConverterConversion  
 0000013e  SUMEXT                         
 000001fe  SYSJTAGDIS                     
 00000172  TA0CCR0                        
@@ -486,27 +487,27 @@ address   name
 000001ce  UCB0TXBUF                      
 000001cf  UCB0TXBUF_H                    
 000001ce  UCB0TXBUF_L                    
-000092f6  USCIB0_ISR                     
+000092f4  USCIB0_ISR                     
 00000061  VMONCTL                        
 00000120  WDTCTL                         
-00009216  WDT_hold                       
+00009214  WDT_hold                       
 0000032c  _CIOBUF_                       
 00000a00  __STACK_END                    
 00000050  __STACK_SIZE                   
 0000012c  __SYSMEM_SIZE                  
-000093be  __TI_CINIT_Base                
-000093c6  __TI_CINIT_Limit               
-000093c6  __TI_CINIT_Warm                
-000093b4  __TI_Handler_Table_Base        
-000093ba  __TI_Handler_Table_Limit       
-00009300  __TI_ISR_TRAP                  
-00008e78  __TI_auto_init_nobinit_nopinit 
-00008f74  __TI_cleanup                   
+000093bc  __TI_CINIT_Base                
+000093c4  __TI_CINIT_Limit               
+000093c4  __TI_CINIT_Warm                
+000093b2  __TI_Handler_Table_Base        
+000093b8  __TI_Handler_Table_Limit       
+000092fe  __TI_ISR_TRAP                  
+00008e76  __TI_auto_init_nobinit_nopinit 
+00008f72  __TI_cleanup                   
 0000053a  __TI_cleanup_ptr               
-0000897e  __TI_closefile                 
-00008888  __TI_decompress_lzss           
-000092a4  __TI_decompress_none           
-00008bfa  __TI_doflush                   
+0000897c  __TI_closefile                 
+00008886  __TI_decompress_lzss           
+000092a2  __TI_decompress_none           
+00008bf8  __TI_doflush                   
 0000053c  __TI_dtors_ptr                 
 00000546  __TI_enable_exit_profile_output
 00000544  __TI_ft_end                    
@@ -523,116 +524,117 @@ address   name
 0000fffa  __TI_int13                     
 0000fffc  __TI_int14                     
 ffffffff  __TI_pprof_out_hndl            
-0000832e  __TI_printfi_minimal           
+0000820c  __TI_printfi_minimal           
 ffffffff  __TI_prof_data_size            
 ffffffff  __TI_prof_data_start           
-0000900a  __TI_readmsg                   
+00009008  __TI_readmsg                   
 0000054a  __TI_tmpnams                   
-00008fdc  __TI_writemsg                  
-00008904  __TI_wrt_ok                    
-00009242  __TI_zero_init_nomemset        
+00008fda  __TI_writemsg                  
+00008902  __TI_wrt_ok                    
+00009240  __TI_zero_init_nomemset        
 ffffffff  __c_args__                     
-0000922c  __mspabi_divu                  
-000092d4  __mspabi_func_epilog_1         
-000092d2  __mspabi_func_epilog_2         
-000092d0  __mspabi_func_epilog_3         
-000092ce  __mspabi_func_epilog_4         
-000092cc  __mspabi_func_epilog_5         
-000092ca  __mspabi_func_epilog_6         
-000092c8  __mspabi_func_epilog_7         
-0000927e  __mspabi_mpyi_hw               
-0000922c  __mspabi_remu                  
-00009036  __mspabi_slli                  
-0000905e  __mspabi_slli_1                
-0000904c  __mspabi_slli_10               
-0000904a  __mspabi_slli_11               
-00009048  __mspabi_slli_12               
-00009046  __mspabi_slli_13               
-00009044  __mspabi_slli_14               
-00009042  __mspabi_slli_15               
-0000905c  __mspabi_slli_2                
-0000905a  __mspabi_slli_3                
-00009058  __mspabi_slli_4                
-00009056  __mspabi_slli_5                
-00009054  __mspabi_slli_6                
-00009052  __mspabi_slli_7                
-00009050  __mspabi_slli_8                
-0000904e  __mspabi_slli_9                
-00008f32  __mspabi_slll_1                
-00008f0e  __mspabi_slll_10               
-00008f0a  __mspabi_slll_11               
-00008f06  __mspabi_slll_12               
-00008f02  __mspabi_slll_13               
-00008efe  __mspabi_slll_14               
-00008efa  __mspabi_slll_15               
-00008f2e  __mspabi_slll_2                
-00008f2a  __mspabi_slll_3                
-00008f26  __mspabi_slll_4                
-00008f22  __mspabi_slll_5                
-00008f1e  __mspabi_slll_6                
-00008f1a  __mspabi_slll_7                
-00008f16  __mspabi_slll_8                
-00008f12  __mspabi_slll_9                
-00008d14  __mspabi_srli                  
-00008d5a  __mspabi_srli_1                
-00008d36  __mspabi_srli_10               
-00008d32  __mspabi_srli_11               
-00008d2e  __mspabi_srli_12               
-00008d2a  __mspabi_srli_13               
-00008d26  __mspabi_srli_14               
-00008d22  __mspabi_srli_15               
-00008d56  __mspabi_srli_2                
-00008d52  __mspabi_srli_3                
-00008d4e  __mspabi_srli_4                
-00008d4a  __mspabi_srli_5                
-00008d46  __mspabi_srli_6                
-00008d42  __mspabi_srli_7                
-00008d3e  __mspabi_srli_8                
-00008d3a  __mspabi_srli_9                
-00009192  _c_int00_noargs                
+0000922a  __mspabi_divu                  
+000092d2  __mspabi_func_epilog_1         
+000092d0  __mspabi_func_epilog_2         
+000092ce  __mspabi_func_epilog_3         
+000092cc  __mspabi_func_epilog_4         
+000092ca  __mspabi_func_epilog_5         
+000092c8  __mspabi_func_epilog_6         
+000092c6  __mspabi_func_epilog_7         
+0000927c  __mspabi_mpyi_hw               
+0000922a  __mspabi_remu                  
+00009034  __mspabi_slli                  
+0000905c  __mspabi_slli_1                
+0000904a  __mspabi_slli_10               
+00009048  __mspabi_slli_11               
+00009046  __mspabi_slli_12               
+00009044  __mspabi_slli_13               
+00009042  __mspabi_slli_14               
+00009040  __mspabi_slli_15               
+0000905a  __mspabi_slli_2                
+00009058  __mspabi_slli_3                
+00009056  __mspabi_slli_4                
+00009054  __mspabi_slli_5                
+00009052  __mspabi_slli_6                
+00009050  __mspabi_slli_7                
+0000904e  __mspabi_slli_8                
+0000904c  __mspabi_slli_9                
+00008f30  __mspabi_slll_1                
+00008f0c  __mspabi_slll_10               
+00008f08  __mspabi_slll_11               
+00008f04  __mspabi_slll_12               
+00008f00  __mspabi_slll_13               
+00008efc  __mspabi_slll_14               
+00008ef8  __mspabi_slll_15               
+00008f2c  __mspabi_slll_2                
+00008f28  __mspabi_slll_3                
+00008f24  __mspabi_slll_4                
+00008f20  __mspabi_slll_5                
+00008f1c  __mspabi_slll_6                
+00008f18  __mspabi_slll_7                
+00008f14  __mspabi_slll_8                
+00008f10  __mspabi_slll_9                
+00008d12  __mspabi_srli                  
+00008d58  __mspabi_srli_1                
+00008d34  __mspabi_srli_10               
+00008d30  __mspabi_srli_11               
+00008d2c  __mspabi_srli_12               
+00008d28  __mspabi_srli_13               
+00008d24  __mspabi_srli_14               
+00008d20  __mspabi_srli_15               
+00008d54  __mspabi_srli_2                
+00008d50  __mspabi_srli_3                
+00008d4c  __mspabi_srli_4                
+00008d48  __mspabi_srli_5                
+00008d44  __mspabi_srli_6                
+00008d40  __mspabi_srli_7                
+00008d3c  __mspabi_srli_8                
+00008d38  __mspabi_srli_9                
+00009190  _c_int00_noargs                
 000004c4  _device                        
 0000044c  _ftable                        
 0000053e  _lock                          
-00009324  _nop                           
+00009322  _nop                           
 0000fffe  _reset_vector                  
 000009b0  _stack                         
 00000512  _stream                        
 00000200  _sys_memory                    
-00009326  _system_post_cinit             
-00009320  _system_pre_init               
+00009324  _system_post_cinit             
+0000931e  _system_pre_init               
 00000540  _unlock                        
-00009316  abort                          
-00008238  aligned_alloc                  
-00008d60  close                          
-00008e34  exit                           
-00008fa8  finddevice                     
-00008770  fputc                          
-0000841a  fputs                          
-00008504  free                           
-000089f0  fseek                          
-000089f0  fseeko                         
-00008cbc  getdevice                      
+00009314  abort                          
+00008116  aligned_alloc                  
+00008d5e  close                          
+00008e32  exit                           
+00008fa6  finddevice                     
+000086ec  fputc                          
+000082f8  fputs                          
+000083e2  free                           
+000089ee  fseek                          
+000089ee  fseeko                         
+00008cba  getdevice                      
 00000542  i                              
-000090de  lseek                          
-00008000  main                           
-00009308  malloc                         
-00008238  memalign                       
-00009170  memccpy                        
-00009256  memchr                         
-000092b6  memcpy                         
-0000926a  memset                         
+0000864e  init_sd24                      
+000090dc  lseek                          
+00008804  main                           
+00009306  malloc                         
+00008116  memalign                       
+0000916e  memccpy                        
+00009254  memchr                         
+000092b4  memcpy                         
+00009268  memset                         
 000005ea  parmbuf                        
-00008f38  printf                         
-00008770  putc                           
-000090b6  remove                         
-000085d6  setvbuf                        
-000091e4  strchr                         
-000091fe  strcmp                         
-000092d8  strcpy                         
-000092e8  strlen                         
-00009062  strncpy                        
-000090b6  unlink                         
-0000914c  write                          
+00008f36  printf                         
+000086ec  putc                           
+000090b4  remove                         
+000084b4  setvbuf                        
+000091e2  strchr                         
+000091fc  strcmp                         
+000092d6  strcpy                         
+000092e6  strlen                         
+00009060  strncpy                        
+000090b4  unlink                         
+0000914a  write                          
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -818,130 +820,131 @@ address   name
 000005f6  Ch1results                     
 000009b0  _stack                         
 00000a00  __STACK_END                    
-00008000  main                           
-00008238  aligned_alloc                  
-00008238  memalign                       
-0000832e  __TI_printfi_minimal           
-0000841a  fputs                          
-00008504  free                           
-000085d6  setvbuf                        
-00008770  fputc                          
-00008770  putc                           
-00008800  HOSTlseek                      
-00008888  __TI_decompress_lzss           
-00008904  __TI_wrt_ok                    
-0000897e  __TI_closefile                 
-000089f0  fseek                          
-000089f0  fseeko                         
-00008a60  HOSTrename                     
-00008b32  HOSTopen                       
-00008b98  HOSTwrite                      
-00008bfa  __TI_doflush                   
-00008c5c  HOSTread                       
-00008cbc  getdevice                      
-00008d14  __mspabi_srli                  
-00008d22  __mspabi_srli_15               
-00008d26  __mspabi_srli_14               
-00008d2a  __mspabi_srli_13               
-00008d2e  __mspabi_srli_12               
-00008d32  __mspabi_srli_11               
-00008d36  __mspabi_srli_10               
-00008d3a  __mspabi_srli_9                
-00008d3e  __mspabi_srli_8                
-00008d42  __mspabi_srli_7                
-00008d46  __mspabi_srli_6                
-00008d4a  __mspabi_srli_5                
-00008d4e  __mspabi_srli_4                
-00008d52  __mspabi_srli_3                
-00008d56  __mspabi_srli_2                
-00008d5a  __mspabi_srli_1                
-00008d60  close                          
-00008daa  SD24_initConverterAdvanced     
-00008df0  HOSTclose                      
-00008e34  exit                           
-00008e78  __TI_auto_init_nobinit_nopinit 
-00008eba  HOSTunlink                     
-00008efa  __mspabi_slll_15               
-00008efe  __mspabi_slll_14               
-00008f02  __mspabi_slll_13               
-00008f06  __mspabi_slll_12               
-00008f0a  __mspabi_slll_11               
-00008f0e  __mspabi_slll_10               
-00008f12  __mspabi_slll_9                
-00008f16  __mspabi_slll_8                
-00008f1a  __mspabi_slll_7                
-00008f1e  __mspabi_slll_6                
-00008f22  __mspabi_slll_5                
-00008f26  __mspabi_slll_4                
-00008f2a  __mspabi_slll_3                
-00008f2e  __mspabi_slll_2                
-00008f32  __mspabi_slll_1                
-00008f38  printf                         
-00008f74  __TI_cleanup                   
-00008fa8  finddevice                     
-00008fdc  __TI_writemsg                  
-00009006  C$$IO$$                        
-0000900a  __TI_readmsg                   
-00009036  __mspabi_slli                  
-00009042  __mspabi_slli_15               
-00009044  __mspabi_slli_14               
-00009046  __mspabi_slli_13               
-00009048  __mspabi_slli_12               
-0000904a  __mspabi_slli_11               
-0000904c  __mspabi_slli_10               
-0000904e  __mspabi_slli_9                
-00009050  __mspabi_slli_8                
-00009052  __mspabi_slli_7                
-00009054  __mspabi_slli_6                
-00009056  __mspabi_slli_5                
-00009058  __mspabi_slli_4                
-0000905a  __mspabi_slli_3                
-0000905c  __mspabi_slli_2                
-0000905e  __mspabi_slli_1                
-00009062  strncpy                        
-000090b6  remove                         
-000090b6  unlink                         
-000090de  lseek                          
-00009104  SD24_enableInterrupt           
-00009128  SD24_init                      
-0000914c  write                          
-00009170  memccpy                        
-00009192  _c_int00_noargs                
-000091ca  SD24_getHighWordResults        
-000091e4  strchr                         
-000091fe  strcmp                         
-00009216  WDT_hold                       
-0000922c  __mspabi_divu                  
-0000922c  __mspabi_remu                  
-00009242  __TI_zero_init_nomemset        
-00009256  memchr                         
-0000926a  memset                         
-0000927e  __mspabi_mpyi_hw               
-00009292  SD24_startConverterConversion  
-000092a4  __TI_decompress_none           
-000092b6  memcpy                         
-000092c8  __mspabi_func_epilog_7         
-000092ca  __mspabi_func_epilog_6         
-000092cc  __mspabi_func_epilog_5         
-000092ce  __mspabi_func_epilog_4         
-000092d0  __mspabi_func_epilog_3         
-000092d2  __mspabi_func_epilog_2         
-000092d4  __mspabi_func_epilog_1         
-000092d8  strcpy                         
-000092e8  strlen                         
-000092f6  USCIB0_ISR                     
-00009300  __TI_ISR_TRAP                  
-00009308  malloc                         
-00009316  C$$EXIT                        
-00009316  abort                          
-00009320  _system_pre_init               
-00009324  _nop                           
-00009326  _system_post_cinit             
-000093b4  __TI_Handler_Table_Base        
-000093ba  __TI_Handler_Table_Limit       
-000093be  __TI_CINIT_Base                
-000093c6  __TI_CINIT_Limit               
-000093c6  __TI_CINIT_Warm                
+00008116  aligned_alloc                  
+00008116  memalign                       
+0000820c  __TI_printfi_minimal           
+000082f8  fputs                          
+000083e2  free                           
+000084b4  setvbuf                        
+0000864e  init_sd24                      
+000086ec  fputc                          
+000086ec  putc                           
+0000877c  HOSTlseek                      
+00008804  main                           
+00008886  __TI_decompress_lzss           
+00008902  __TI_wrt_ok                    
+0000897c  __TI_closefile                 
+000089ee  fseek                          
+000089ee  fseeko                         
+00008a5e  HOSTrename                     
+00008b30  HOSTopen                       
+00008b96  HOSTwrite                      
+00008bf8  __TI_doflush                   
+00008c5a  HOSTread                       
+00008cba  getdevice                      
+00008d12  __mspabi_srli                  
+00008d20  __mspabi_srli_15               
+00008d24  __mspabi_srli_14               
+00008d28  __mspabi_srli_13               
+00008d2c  __mspabi_srli_12               
+00008d30  __mspabi_srli_11               
+00008d34  __mspabi_srli_10               
+00008d38  __mspabi_srli_9                
+00008d3c  __mspabi_srli_8                
+00008d40  __mspabi_srli_7                
+00008d44  __mspabi_srli_6                
+00008d48  __mspabi_srli_5                
+00008d4c  __mspabi_srli_4                
+00008d50  __mspabi_srli_3                
+00008d54  __mspabi_srli_2                
+00008d58  __mspabi_srli_1                
+00008d5e  close                          
+00008da8  SD24_initConverterAdvanced     
+00008dee  HOSTclose                      
+00008e32  exit                           
+00008e76  __TI_auto_init_nobinit_nopinit 
+00008eb8  HOSTunlink                     
+00008ef8  __mspabi_slll_15               
+00008efc  __mspabi_slll_14               
+00008f00  __mspabi_slll_13               
+00008f04  __mspabi_slll_12               
+00008f08  __mspabi_slll_11               
+00008f0c  __mspabi_slll_10               
+00008f10  __mspabi_slll_9                
+00008f14  __mspabi_slll_8                
+00008f18  __mspabi_slll_7                
+00008f1c  __mspabi_slll_6                
+00008f20  __mspabi_slll_5                
+00008f24  __mspabi_slll_4                
+00008f28  __mspabi_slll_3                
+00008f2c  __mspabi_slll_2                
+00008f30  __mspabi_slll_1                
+00008f36  printf                         
+00008f72  __TI_cleanup                   
+00008fa6  finddevice                     
+00008fda  __TI_writemsg                  
+00009004  C$$IO$$                        
+00009008  __TI_readmsg                   
+00009034  __mspabi_slli                  
+00009040  __mspabi_slli_15               
+00009042  __mspabi_slli_14               
+00009044  __mspabi_slli_13               
+00009046  __mspabi_slli_12               
+00009048  __mspabi_slli_11               
+0000904a  __mspabi_slli_10               
+0000904c  __mspabi_slli_9                
+0000904e  __mspabi_slli_8                
+00009050  __mspabi_slli_7                
+00009052  __mspabi_slli_6                
+00009054  __mspabi_slli_5                
+00009056  __mspabi_slli_4                
+00009058  __mspabi_slli_3                
+0000905a  __mspabi_slli_2                
+0000905c  __mspabi_slli_1                
+00009060  strncpy                        
+000090b4  remove                         
+000090b4  unlink                         
+000090dc  lseek                          
+00009102  SD24_enableInterrupt           
+00009126  SD24_init                      
+0000914a  write                          
+0000916e  memccpy                        
+00009190  _c_int00_noargs                
+000091c8  SD24_getHighWordResults        
+000091e2  strchr                         
+000091fc  strcmp                         
+00009214  WDT_hold                       
+0000922a  __mspabi_divu                  
+0000922a  __mspabi_remu                  
+00009240  __TI_zero_init_nomemset        
+00009254  memchr                         
+00009268  memset                         
+0000927c  __mspabi_mpyi_hw               
+00009290  SD24_startConverterConversion  
+000092a2  __TI_decompress_none           
+000092b4  memcpy                         
+000092c6  __mspabi_func_epilog_7         
+000092c8  __mspabi_func_epilog_6         
+000092ca  __mspabi_func_epilog_5         
+000092cc  __mspabi_func_epilog_4         
+000092ce  __mspabi_func_epilog_3         
+000092d0  __mspabi_func_epilog_2         
+000092d2  __mspabi_func_epilog_1         
+000092d6  strcpy                         
+000092e6  strlen                         
+000092f4  USCIB0_ISR                     
+000092fe  __TI_ISR_TRAP                  
+00009306  malloc                         
+00009314  C$$EXIT                        
+00009314  abort                          
+0000931e  _system_pre_init               
+00009322  _nop                           
+00009324  _system_post_cinit             
+000093b2  __TI_Handler_Table_Base        
+000093b8  __TI_Handler_Table_Limit       
+000093bc  __TI_CINIT_Base                
+000093c4  __TI_CINIT_Limit               
+000093c4  __TI_CINIT_Warm                
 0000ffe2  __TI_int01                     
 0000ffe8  __TI_int04                     
 0000ffea  __TI_int05                     
@@ -960,4 +963,4 @@ ffffffff  __TI_prof_data_size
 ffffffff  __TI_prof_data_start           
 ffffffff  __c_args__                     
 
-[320 symbols]
+[321 symbols]
