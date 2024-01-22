@@ -18,6 +18,8 @@
 //******************************************************************************
 #include "driverlib.h"
 #include <msp430i2021.h>
+#include <stdio.h>
+#include <msp430.h>
 
 #define Num_of_Results   8
 
@@ -25,6 +27,14 @@
 uint16_t Ch0results;
 uint16_t Ch1results;
 uint16_t i = 0;
+
+//Switching direction
+//1: Set direction, assume default if non present / no command(Do not turn on power supply or relays at this point)
+    //Red is +, black is -
+//2. Turn off 12v to relay MOSFET, never opens
+//3. Relay, set to direction of current (forward / backward, from command)
+//4. After done, set 12V
+
 
 void main(void) {
     // Stop WDT
@@ -80,12 +90,14 @@ void main(void) {
     //__bis_SR_register(0b10000 | GIE); //LPM0 = 0x10 = 0b10000 (Bit mask to disable CPU)
 
 
-    //General Program Flow:
-        //Polling:
-            //
-
     for (;;){
 
+        // Save CH0 results (clears IFG)
+       Ch0results = SD24_getHighWordResults(SD24_BASE, SD24_CONVERTER_0);
+       // Save CH1 results (clears IFG)
+       Ch1results = SD24_getHighWordResults(SD24_BASE, SD24_CONVERTER_1);
+
+       printf("%d, %d\n", Ch0results, Ch1results);
 
         P1OUT ^= (1 << 5);
         P1OUT ^= 1 << 0;
@@ -95,42 +107,39 @@ void main(void) {
 
 }
 
-
-
-#pragma vector=SD24_VECTOR
-//Function defined, with no return value and no parameters
-__interrupt void SD24_ISR(void) {
-
-    switch (__even_in_range(SD24IV,SD24IV_SD24MEM1)) {
-        case SD24IV_NONE: break;
-        case SD24IV_SD24OVIFG: break;
-        case SD24IV_SD24MEM0: break;
-        case SD24IV_SD24MEM1:
-                   // Save CH0 results (clears IFG)
-                   Ch0results = SD24_getHighWordResults(SD24_BASE, SD24_CONVERTER_0);
-                   // Save CH1 results (clears IFG)
-                   Ch1results = SD24_getHighWordResults(SD24_BASE, SD24_CONVERTER_1);
-
-
-                   //Assume the above values are real and updated.
-
-                   //If over defined threshold, open relays,
-
-
-
-                       __no_operation();           // SET BREAKPOINT HERE
-
-                   break;
-        default: break;
-    }
-}
-
 //Interrupt vector for I2C communication
 //NOTE:
     //I2C has higher priority interrupt compared to SD24
 #pragma vector=USCI_B0_VECTOR
 //Check example code for how to format intterupt
-__interrupt void I2C_ISR(void){
+__interrupt void USCIB0_ISR(void) {
+    switch(__even_in_range(UCB0IV, USCI_I2C_UCBIT9IFG)) {
+        case USCI_NONE: break;
+        case USCI_I2C_UCALIFG: break;
+        case USCI_I2C_UCNACKIFG: break;
+        case USCI_I2C_UCSTTIFG: break;
+        case USCI_I2C_UCSTPIFG: break;
+        case USCI_I2C_UCRXIFG3: break;
+        case USCI_I2C_UCTXIFG3: break;
+        case USCI_I2C_UCRXIFG2: break;
+        case USCI_I2C_UCTXIFG2: break;
+        case USCI_I2C_UCRXIFG1: break;
+        case USCI_I2C_UCTXIFG1: break;
+        case USCI_I2C_UCRXIFG0:
+            RXData[RXDataIndex++] = EUSCI_B_I2C_slaveGetData(EUSCI_B0_BASE);
 
+            // Reset index if at end of array
+            //Writes over old data
+            if(RXDataIndex == NUM_OF_RX_BYTES) {
+                RXDataIndex = 0;
+            }
+
+            break;
+        case USCI_I2C_UCTXIFG0: break;
+        case USCI_I2C_UCBCNTIFG: break;
+        case USCI_I2C_UCCLTOIFG: break;
+        case USCI_I2C_UCBIT9IFG: break;
+        default: break;
+    }
 }
 
