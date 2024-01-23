@@ -97,7 +97,7 @@ void main(void) {
 
     //Test code for I2C to follow:
     EUSCI_B_I2C_initSlaveParam i2cConfig = {
-            SLAVE_ADDRESS,                              // Slave Address
+            MSP430I2021_SLAVE_ADDRESS,                              // Slave Address
             EUSCI_B_I2C_OWN_ADDRESS_OFFSET0,
             EUSCI_B_I2C_OWN_ADDRESS_ENABLE
         };
