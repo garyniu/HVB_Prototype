@@ -6,11 +6,14 @@
 
 //I2C definitions
 #define MSP430I2021_SLAVE_ADDRESS       0x48
-#define NUM_OF_TX_BYTES     4
-#define NUM_OF_RX_BYTES     4
+#define NUM_OF_TX_BYTES     21
+#define NUM_OF_RX_BYTES     26
 
 static volatile uint8_t RXData[NUM_OF_RX_BYTES];
 static volatile uint8_t RXDataIndex;
+
+static volatile uint8_t TXData[NUM_OF_TX_BYTES] = {5, 5, 3, 4};    //Test data
+static volatile uint8_t TXDataIndex;
 
 //TODO
 //Put other remaining definitions here
@@ -86,8 +89,8 @@ void main(void) {
     //P1.5 controls an LED
 
     P1DIR |= (1 << 5);
-    P1OUT = 1 << 5;
-    //P1OUT = 0;
+    //P1OUT = 1 << 5;
+    P1OUT = 0;
 
     //P1.0:
 
@@ -146,13 +149,16 @@ void main(void) {
 
        //en1, en2, for polarity switch, disable en3,
        //chech high voltage
-       printf("%d, %d\n", Ch0results, Ch1results);
+       //printf("%d, %d\n", Ch0results, Ch1results);
 
-        P1OUT ^= (1 << 5); //flips the led on and off
+       //printf("%d, %d, %d\n", RXData[2], RXData[3], RXData[4]);
+
+
+       P1OUT ^= 1 << 5;
+
+         //flips the led on and off
         //P1OUT ^= 1 << 0; //FLips the relay
-        for (i = 0; i < 40000; i++);
     }
-
 
 }
 
@@ -160,8 +166,6 @@ void main(void) {
 //NOTE:
     //I2C has higher priority interrupt compared to SD24
 #pragma vector=USCI_B0_VECTOR
-//Check example code for how to format intterupt
-//No TX code at this moment
 __interrupt void USCIB0_ISR(void) {
     switch(__even_in_range(UCB0IV, USCI_I2C_UCBIT9IFG)) {
         case USCI_NONE: break;
@@ -176,17 +180,29 @@ __interrupt void USCIB0_ISR(void) {
         case USCI_I2C_UCRXIFG1: break;
         case USCI_I2C_UCTXIFG1: break;
         case USCI_I2C_UCRXIFG0:
+
+            //Puts all 26 received bits from master, and puts it into RXData, which increments it each time the data is full
             RXData[RXDataIndex++] = EUSCI_B_I2C_slaveGetData(EUSCI_B0_BASE);
 
             // Reset index if at end of array
-            //Writes over old data
             if(RXDataIndex == NUM_OF_RX_BYTES) {
                 RXDataIndex = 0;
             }
-            //can add printf statement here
+
 
             break;
-        case USCI_I2C_UCTXIFG0: break;
+        case USCI_I2C_UCTXIFG0:
+
+            //Test, flashes the led with each byte of data
+            EUSCI_B_I2C_slavePutData(EUSCI_B0_BASE, TXData[TXDataIndex++]);
+
+            // Disable TX if all data is sent
+            if(TXDataIndex == NUM_OF_TX_BYTES) {
+                EUSCI_B_I2C_disableInterrupt(EUSCI_B0_BASE,
+                                             EUSCI_B_I2C_TRANSMIT_INTERRUPT0);
+            }
+            break;
+
         case USCI_I2C_UCBCNTIFG: break;
         case USCI_I2C_UCCLTOIFG: break;
         case USCI_I2C_UCBIT9IFG: break;
