@@ -1,4 +1,4 @@
-//iohsdoifaodihfaiosnvonaids
+//includes / Header files
 #include "driverlib.h"
 #include <msp430i2021.h>
 #include <stdio.h>
@@ -16,7 +16,7 @@ static volatile uint8_t TXData[NUM_OF_TX_BYTES] = {5, 5, 3, 4};    //Test data
 static volatile uint8_t TXDataIndex;
 
 //TODO
-//Put other remaining definitions here
+//Put other remaining I2C definitions here
 
 
 
@@ -29,13 +29,27 @@ uint16_t Ch1results;
 uint16_t i = 0;
 
 //Switching direction
-//1: Set direction, assume default if non present / no command(Do not turn on power supply or relays at this point)
+//1: Set direction, assume default if non present / no command (Do not turn on power supply or relays at this point)
     //Red is +, black is -
 //2. Turn off 12v to relay MOSFET, never opens
 //3. Relay, set to direction of current (forward / backward, from command)
 //4. After done, set 12V
 
 
+//Regular Definitions
+bool InterruptWOccured = false;
+
+//Values to be stored in flash
+int polarity = 0; // 0 = Default direction, 1 = Reversed direction
+uint16_t currentLimit = 0;
+uint16_t vOffset1 = 0;
+uint16_t vOffset2 = 0;
+uint16_t vOffset3 = 0;
+
+//16 byts of RFID data
+uint8_t rfidData[16];
+
+int temp=0;
 //Functions declaraions
 void init_sd24(void){
     //FOR SD24:
@@ -76,30 +90,9 @@ void init_sd24(void){
         return;
 }
 
-
-void main(void) {
-    // Stop WDT
-    WDT_hold(WDT_BASE);
-    printf("Hello World!\n");
-
-    //P1.0, P1.1 controls output relays
-    P1DIR = (1 << 0) | (1 << 1);
-    P1OUT = 0;
-
-    //P1.5 controls an LED
-
-    P1DIR |= (1 << 5);
-    //P1OUT = 1 << 5;
-    P1OUT = 0;
-
-    //P1.0:
-
-    //Initalize SD24's 2 analogue channels
-    init_sd24();
-
-
-    //Test code for I2C to follow:
-    EUSCI_B_I2C_initSlaveParam i2cConfig = {
+void init_i2c(void){
+    
+        EUSCI_B_I2C_initSlaveParam i2cConfig = {
             MSP430I2021_SLAVE_ADDRESS,                              // Slave Address
             EUSCI_B_I2C_OWN_ADDRESS_OFFSET0,
             EUSCI_B_I2C_OWN_ADDRESS_ENABLE
@@ -131,13 +124,110 @@ void main(void) {
         EUSCI_B_I2C_enableInterrupt(EUSCI_B0_BASE,
                                     EUSCI_B_I2C_RECEIVE_INTERRUPT0);
 
-
-
     // Enter LPM0 w/ interrupts
     //__bis_SR_register(0b10000 | GIE); //LPM0 = 0x10 = 0b10000 (Bit mask to disable CPU)
+}
+
+void Relay_Polarity(int polarity){
+    if (!polarity){
+        //Default direction
+            //Make sure to disable 1.4 first before 
+            //changing direction of the relays
+    } else {
+        //Inverted direction
+    }
+}
+
+void main(void) {
+    // Stop WDT
+    WDT_hold(WDT_BASE);
+    printf("Hello World!\n");
+
+
+    //Init ports
+    P1OUT = 0;
+    //P1.0, P1.1: Relays
+    P1DIR = (1 << 0) | (1 << 1);
+
+    //P1.4: 12V to enable relay switches
+    P1DIR |= (1 << 4);
+    P1OUT |= (1 << 4); //Enable relays
+
+    //P1.5: LED
+    P1DIR |= (1 << 5);
+    
+
+
+    //Other inits
+    //Initalize SD24's 2 analogue channels
+    init_sd24();
+
+    //Load values from flash
+    //flash_read();
+
+    //Init I2C
+    init_i2c();
 
 
     for (;;){
+
+        //Check if interrupt occured, operations and flash if needed
+        if (InterruptWOccured){
+            //Clear it
+            InterruptWOccured = false;
+
+            //Polarity
+                //Check if polarity has changed from value in flash:
+                //If so, change local value and flash, and
+
+            //if (flash_polarity != polarity){
+                polarity = RXData[0];
+                //flash_polarity = RXData[0]; //Put it in flash (Function, instead of a value)
+                Relay_Polarity(polarity); //Switch direction of relays
+
+            //}
+            
+
+            //Current Limit
+                //First, append the high byte to the rear of the low byte (hint: use bitwise operators)
+                //Ex:   RXData[1] = 10010101, High byte
+                //      RXData[2] = 00101000, Low byte
+                //          Both of these bytes in the array represent one half of a 16 bit integer
+                //      So, the High byte needs to be shifted over 8 bits
+                //      And the low byte is added in through the OR bitwise operator
+                //  Visualized:
+                //      1. Shift High Byte in 16 bit integer:       xxxxxxxx10010101 << 8
+                //                                                = 1001010100000000
+                //      2. Use Bitwise to add Low Byte:             1001010100000000 | 00101000
+                //                                                = 1001010100101000
+
+            currentLimit = (RXData[1] << 8) | RXData[2];
+            //if(currentLimit != flash_currentLimit)
+            //flash_currentLimit = currentLimit;
+                //No other adjustment needed; polling will access the currentLimit variable
+                //and it will be auto updated.
+
+            //Voltage Offset
+                //Adjust the voltage offset for different points / regions, as the voltage increases
+                //Still High / Low byte, so same process as above
+                    //Values are used automatically in calculations, so no need to change anything
+                    //other than flash
+
+            vOffset1 = (RXData[3] << 8) | RXData[4];
+            vOffset2 = (RXData[5] << 8) | RXData[6];
+            vOffset3 = (RXData[7] << 8) | RXData[8];
+
+                //Check each voltage offset independently to make sure it changed
+                //before writing to flash
+            //if (shit)
+            //...
+            //...
+
+
+            //byte10-26 RFID
+            //TO BE IMPLEMENTED
+
+        }
 
         // Reads data from ch0, before relays?
        Ch0results = SD24_getHighWordResults(SD24_BASE, SD24_CONVERTER_0);
@@ -153,11 +243,16 @@ void main(void) {
 
        //printf("%d, %d, %d\n", RXData[2], RXData[3], RXData[4]);
 
+        temp+=1;
+        //printf("%d\n", temp);
 
-       P1OUT ^= 1 << 5;
-
-         //flips the led on and off
-        //P1OUT ^= 1 << 0; //FLips the relay
+        if (temp == 20000){
+            temp = 0;
+            P1OUT ^= (1 << 5);
+            P1OUT ^= 1 ;
+        }
+    
+        
     }
 
 }
@@ -187,6 +282,8 @@ __interrupt void USCIB0_ISR(void) {
             // Reset index if at end of array
             if(RXDataIndex == NUM_OF_RX_BYTES) {
                 RXDataIndex = 0;
+                //Indicates that there has been a write, and that settings need to change
+                InterruptWOccured = true;
             }
 
 
