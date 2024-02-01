@@ -1,4 +1,4 @@
-    //includes / Header files
+//includes / Header files
 #include "driverlib.h"
 #include <msp430i2021.h>
 #include <stdio.h>
@@ -57,6 +57,7 @@ uint8_t  CMDIndex; //CMD buffer index
 
 
 
+
 //SD24 definitions
 #define Num_of_Results   8
 
@@ -64,8 +65,8 @@ uint8_t  CMDIndex; //CMD buffer index
 static volatile uint32_t Ch0results;
 static volatile uint32_t Ch1results;
 
-static volatile uint32_t hv_v;   //in Voltage
-static volatile uint32_t hv_c;  // in 0.1uA
+static volatile float hv_v;   //in Voltage
+static volatile float hv_c;  // in 0.1uA
 
 static volatile uint8_t hv_update;     //HV ADC value updated
 
@@ -80,15 +81,14 @@ uint16_t i = 0;
 
 //Values to be stored in flash
 int polarity = 0; // 0 = Default direction, 1 = Reversed direction
-uint16_t currentLimit = 0;
+uint16_t currentLimit = 1000; //value in .01ua
 uint16_t vOffset1 = 0;
 uint16_t vOffset2 = 0;
 uint16_t vOffset3 = 0;
 
-//16 byts of RFID data
+//16 bytes of RFID data
 uint8_t rfidData[16];
 
-//Tracking value for the LED
 int LEDTime = 0;
 
 bool ProtectionFlag = true;
@@ -195,15 +195,38 @@ void init_i2c(void){
 
 }
 
-void Relay_Polarity(int polarity){
-    if (!polarity){
-        //Default direction
-            //Make sure to disable 1.4 first before
-            //changing direction of the relays
-    } else {
-        //Inverted direction
-    }
+void init_flash(void){
+    FlashCtl_setupClock(390095, 16384000, FLASHCTL_MCLK);
 }
+
+void write_flash(){
+    //Writes value to a defined location
+
+    //0: polarity
+    //1: Current limit (16 bit)
+    //2: VOff 1000 (16 bit)
+    //3: VOff 2000 (16 bit)
+    //4: VOff 3000 (16 bit)
+    
+
+}
+
+void write_rfid_flash(){
+    //5: RFID (16 bytes, 128 bit)
+}
+
+uint16_t read_flash(){
+
+}
+
+struct RFIDReturn {
+    uint8_t data[16];
+} RFIDReturnStore;
+
+RFIDReturn read_rfid_flash(){
+
+}
+
 
 void main(void) {
 
@@ -252,8 +275,8 @@ void main(void) {
 
             __disable_interrupt();                   // disable all interrupts --> GIE = 0 (LOW)
 
-            temp_v= hv_v;
-            temp_c=hv_c;  //copy to local
+            temp_v= (int) hv_v;
+            temp_c=(int) hv_c;  //copy to local
             hv_update=0;
             // Need to add a flag on when the new ADC value is available.
             if ((temp_v <5000) && (temp_c<3000))  {//valid voltage reading
@@ -265,15 +288,13 @@ void main(void) {
 
             __enable_interrupt();                   // enable all interrupts --> GIE = 1 (HIGH)
 
-            if (temp_c>currentLimit*10) {
+            if (temp_c>currentLimit*2) {
                 GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN4);
                 ProtectionFlag = true;
             }
 
-            //exit protection mode when voltage drop to close to 0V, that means HV has been turned off.
-            if (temp_v <10 && ProtectionFlag == true)  {
-                GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN4); 
-            }
+
+            if (temp_v <10 && ProtectionFlag == true)  GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN4); //exit protection mode when voltage drop to close to 0V, that means HV has been turned off.
         }
         //calculate voltage and current
 
@@ -304,8 +325,8 @@ void main(void) {
                     GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN1);
                 }
                 else {
-                    GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN0);
                     GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN1);
+                    GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN0);
                 }
             }
         }
@@ -385,14 +406,16 @@ void main(void) {
        //printf("%d, %d, %d\n", RXData[2], RXData[3], RXData[4]);
 
         if (ProtectionFlag) LEDTime += 1;
-
-        //printf("%d", LEDTime);
+        //printf("%d\n", temp);
 
         if (LEDTime == 20000){
             LEDTime = 0;
             GPIO_toggleOutputOnPin(GPIO_PORT_P1, GPIO_PIN5);
         }
+   
+       
     }
+
 }
 
 //Interrupt vector for I2C communication
@@ -468,13 +491,13 @@ __interrupt void SD24_ISR(void) {
 
             // Save CH0 results (clears IFG)
            Ch0results = SD24_getResults(SD24_BASE, SD24_CONVERTER_0);
-           hv_v=  (int) Ch0results* 1158/0x7FFFF*HV_V_RATIO;
+           hv_v=   Ch0results* 1158/(float)0x7FFFFF*(float)HV_V_RATIO;
            break;
         case SD24IV_SD24MEM1:
 
            // Save CH1 results (clears IFG)
            Ch1results = SD24_getResults(SD24_BASE, SD24_CONVERTER_1);
-           hv_c = (int) Ch1results* 1158/0x7FFFF/HV_C_RATIO;
+           hv_c = Ch1results* 1158/(float)0x7FFFFF/(float)HV_C_RATIO;
            hv_update=1; // a flag to indicate new ADC value is available
 
 
