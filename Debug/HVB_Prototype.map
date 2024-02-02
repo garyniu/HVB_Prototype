@@ -1,10 +1,10 @@
 ******************************************************************************
                   MSP430 Linker PC v21.6.1                     
 ******************************************************************************
->> Linked Thu Feb  1 16:09:46 2024
+>> Linked Fri Feb  2 15:10:29 2024
 
 OUTPUT FILE NAME:   <HVB_Prototype.out>
-ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 00008a52
+ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 00008b02
 
 
 MEMORY CONFIGURATION
@@ -16,7 +16,7 @@ MEMORY CONFIGURATION
   PERIPHERALS_16BIT     00000100   00000100  00000000  00000100  RWIX
   RAM                   00000200   00000800  00000142  000006be  RWIX
   INFOA                 00001000   00000400  00000000  00000400  RWIX
-  FLASH                 00008000   00007fdc  00000bb0  0000742c  RWIX
+  FLASH                 00008000   00007fdc  00000c60  0000737c  RWIX
   JTAGSIGNATURE         0000ffdc   00000004  00000004  00000000  RWIX  ffff 
   INT00                 0000ffe0   00000002  00000000  00000002  RWIX
   INT01                 0000ffe2   00000002  00000002  00000000  RWIX
@@ -60,62 +60,66 @@ section   page    origin      length       input sections
                   000009b0    00000002     rts430_eabi.lib : boot.c.obj (.stack)
                   000009b2    0000004e     --HOLE--
 
-.text      0    00008000    00000b62     
-                  00008000    00000214     main.obj (.text:main)
-                  00008214    000000c4     rts430_eabi.lib : fs_mpy.asm.obj (.text)
-                  000082d8    000000c2     main.obj (.text:USCIB0_ISR)
-                  0000839a    000000b8     main.obj (.text:SD24_ISR)
-                  00008452    000000b4     main.obj (.text:init_sd24)
-                  00008506    0000009c     rts430_eabi.lib : fs_div.asm.obj (.text)
-                  000085a2    0000008c     sd24.obj (.text:SD24_getResults)
-                  0000862e    0000007c     rts430_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
-                  000086aa    00000068                     : fs_toi.asm.obj (.text)
-                  00008712    00000060     main.obj (.text:init_i2c)
-                  00008772    0000004c     rts430_eabi.lib : lsr16.asm.obj (.text)
-                  000087be    0000004a     main.obj (.text:init_gpio)
-                  00008808    00000046     sd24.obj (.text:SD24_initConverterAdvanced)
-                  0000884e    00000042     rts430_eabi.lib : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit:__TI_auto_init_nobinit_nopinit)
-                  00008890    00000040     gpio.obj (.text:GPIO_setAsPeripheralModuleFunctionInputPin)
-                  000088d0    0000003e     rts430_eabi.lib : lsl32.asm.obj (.text:l_lsl_const)
-                  0000890e    00000032                     : fs_ultof.asm.obj (.text)
-                  00008940    0000002e     cs.obj (.text:CS_setupDCO)
-                  0000896e    0000002e     rts430_eabi.lib : mult32_hw.asm.obj (.text)
-                  0000899c    0000002c                     : lsl16.asm.obj (.text)
-                  000089c8    00000024     eusci_b_i2c.obj (.text:EUSCI_B_I2C_initSlave)
-                  000089ec    00000024     sd24.obj (.text:SD24_enableInterrupt)
-                  00008a10    00000024     sd24.obj (.text:SD24_init)
-                  00008a34    0000001e     gpio.obj (.text:GPIO_setAsOutputPin)
-                  00008a52    0000001c     rts430_eabi.lib : boot.c.obj (.text:_c_int00_noargs)
-                  00008a6e    00000016     gpio.obj (.text:GPIO_setOutputHighOnPin)
-                  00008a84    00000016     gpio.obj (.text:GPIO_setOutputLowOnPin)
-                  00008a9a    00000016     gpio.obj (.text:GPIO_toggleOutputOnPin)
-                  00008ab0    00000016     wdt.obj (.text:WDT_hold)
-                  00008ac6    00000014     rts430_eabi.lib : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset:__TI_zero_init_nomemset)
-                  00008ada    00000012     sd24.obj (.text:SD24_startConverterConversion)
-                  00008aec    00000012     rts430_eabi.lib : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
-                  00008afe    00000012                     : memcpy.c.obj (.text:memcpy)
-                  00008b10    00000010                     : epilog.asm.obj (.text)
-                  00008b20    0000000c     eusci_b_i2c.obj (.text:EUSCI_B_I2C_setMode)
-                  00008b2c    00000008     eusci_b_i2c.obj (.text:EUSCI_B_I2C_slaveGetData)
-                  00008b34    00000008     eusci_b_i2c.obj (.text:EUSCI_B_I2C_slavePutData)
-                  00008b3c    00000008     rts430_eabi.lib : isr_trap.asm.obj (.text:_isr:__TI_ISR_TRAP)
-                  00008b44    00000006     eusci_b_i2c.obj (.text:EUSCI_B_I2C_clearInterrupt)
-                  00008b4a    00000006     eusci_b_i2c.obj (.text:EUSCI_B_I2C_enable)
-                  00008b50    00000006     eusci_b_i2c.obj (.text:EUSCI_B_I2C_enableInterrupt)
-                  00008b56    00000006     rts430_eabi.lib : exit.c.obj (.text:abort)
-                  00008b5c    00000004                     : pre_init.c.obj (.text:_system_pre_init)
-                  00008b60    00000002                     : startup.c.obj (.text:_system_post_cinit)
+.text      0    00008000    00000c12     
+                  00008000    00000218     main.obj (.text:main)
+                  00008218    000000c4     rts430_eabi.lib : fs_mpy.asm.obj (.text)
+                  000082dc    000000c2     main.obj (.text:USCIB0_ISR)
+                  0000839e    000000b8     main.obj (.text:SD24_ISR)
+                  00008456    000000b4     main.obj (.text:init_sd24)
+                  0000850a    0000009c     rts430_eabi.lib : fs_div.asm.obj (.text)
+                  000085a6    0000008c     sd24.obj (.text:SD24_getResults)
+                  00008632    0000007c     rts430_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
+                  000086ae    00000068                     : fs_toi.asm.obj (.text)
+                  00008716    00000060     main.obj (.text:init_i2c)
+                  00008776    00000058     rts430_eabi.lib : div32u.asm.obj (.text)
+                  000087ce    0000004c                     : lsr16.asm.obj (.text)
+                  0000881a    0000004a     main.obj (.text:init_gpio)
+                  00008864    00000046     sd24.obj (.text:SD24_initConverterAdvanced)
+                  000088aa    00000042     rts430_eabi.lib : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit:__TI_auto_init_nobinit_nopinit)
+                  000088ec    00000040     gpio.obj (.text:GPIO_setAsPeripheralModuleFunctionInputPin)
+                  0000892c    0000003e     rts430_eabi.lib : lsl32.asm.obj (.text:l_lsl_const)
+                  0000896a    00000036     flashctl.obj (.text:FlashCtl_setupClock)
+                  000089a0    00000032     rts430_eabi.lib : fs_ultof.asm.obj (.text)
+                  000089d2    0000002e     cs.obj (.text:CS_setupDCO)
+                  00008a00    0000002e     rts430_eabi.lib : mult32_hw.asm.obj (.text)
+                  00008a2e    0000002c                     : lsl16.asm.obj (.text)
+                  00008a5a    00000024     eusci_b_i2c.obj (.text:EUSCI_B_I2C_initSlave)
+                  00008a7e    00000024     sd24.obj (.text:SD24_enableInterrupt)
+                  00008aa2    00000024     sd24.obj (.text:SD24_init)
+                  00008ac6    0000001e     gpio.obj (.text:GPIO_setAsOutputPin)
+                  00008ae4    0000001e     main.obj (.text:init_flash)
+                  00008b02    0000001c     rts430_eabi.lib : boot.c.obj (.text:_c_int00_noargs)
+                  00008b1e    00000016     gpio.obj (.text:GPIO_setOutputHighOnPin)
+                  00008b34    00000016     gpio.obj (.text:GPIO_setOutputLowOnPin)
+                  00008b4a    00000016     gpio.obj (.text:GPIO_toggleOutputOnPin)
+                  00008b60    00000016     wdt.obj (.text:WDT_hold)
+                  00008b76    00000014     rts430_eabi.lib : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init_nomemset:__TI_zero_init_nomemset)
+                  00008b8a    00000012     sd24.obj (.text:SD24_startConverterConversion)
+                  00008b9c    00000012     rts430_eabi.lib : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
+                  00008bae    00000012                     : memcpy.c.obj (.text:memcpy)
+                  00008bc0    00000010                     : epilog.asm.obj (.text)
+                  00008bd0    0000000c     eusci_b_i2c.obj (.text:EUSCI_B_I2C_setMode)
+                  00008bdc    00000008     eusci_b_i2c.obj (.text:EUSCI_B_I2C_slaveGetData)
+                  00008be4    00000008     eusci_b_i2c.obj (.text:EUSCI_B_I2C_slavePutData)
+                  00008bec    00000008     rts430_eabi.lib : isr_trap.asm.obj (.text:_isr:__TI_ISR_TRAP)
+                  00008bf4    00000006     eusci_b_i2c.obj (.text:EUSCI_B_I2C_clearInterrupt)
+                  00008bfa    00000006     eusci_b_i2c.obj (.text:EUSCI_B_I2C_enable)
+                  00008c00    00000006     eusci_b_i2c.obj (.text:EUSCI_B_I2C_enableInterrupt)
+                  00008c06    00000006     rts430_eabi.lib : exit.c.obj (.text:abort)
+                  00008c0c    00000004                     : pre_init.c.obj (.text:_system_pre_init)
+                  00008c10    00000002                     : startup.c.obj (.text:_system_post_cinit)
 
-.const     0    00008b62    0000002e     
-                  00008b62    0000001c     gpio.obj (.const:GPIO_PORT_TO_BASE)
-                  00008b7e    0000000c     main.obj (.const:$P$T0$1)
-                  00008b8a    00000006     main.obj (.const:$P$T1$2)
+.const     0    00008c12    0000002e     
+                  00008c12    0000001c     gpio.obj (.const:GPIO_PORT_TO_BASE)
+                  00008c2e    0000000c     main.obj (.const:$P$T0$1)
+                  00008c3a    00000006     main.obj (.const:$P$T1$2)
 
-.cinit     0    00008b90    00000020     
-                  00008b90    0000000e     (.cinit..data.load) [load image, compression = lzss]
-                  00008b9e    00000006     (__TI_handler_table)
-                  00008ba4    00000004     (.cinit..bss.load) [load image, compression = zero_init]
-                  00008ba8    00000008     (__TI_cinit_table)
+.cinit     0    00008c40    00000020     
+                  00008c40    0000000d     (.cinit..data.load) [load image, compression = lzss]
+                  00008c4d    00000001     --HOLE-- [fill = 0]
+                  00008c4e    00000006     (__TI_handler_table)
+                  00008c54    00000004     (.cinit..bss.load) [load image, compression = zero_init]
+                  00008c58    00000008     (__TI_cinit_table)
 
 .binit     0    00008000    00000000     
 
@@ -173,24 +177,26 @@ MODULE SUMMARY
        Module                       code   ro data   rw data
        ------                       ----   -------   -------
     .\
-       main.obj                     1260   22        242    
+       main.obj                     1294   22        242    
     +--+----------------------------+------+---------+---------+
-       Total:                       1260   22        242    
+       Total:                       1294   22        242    
                                                             
     .\driverlib\MSP430i2xx\
        sd24.obj                     300    0         0      
        gpio.obj                     160    28        0      
        eusci_b_i2c.obj              82     0         0      
+       flashctl.obj                 54     0         0      
        cs.obj                       46     0         0      
        wdt.obj                      22     0         0      
     +--+----------------------------+------+---------+---------+
-       Total:                       610    28        0      
+       Total:                       664    28        0      
                                                             
     C:\ti\ccs1260\ccs\tools\compiler\ti-cgt-msp430_21.6.1.LTS\lib\rts430_eabi.lib
        fs_mpy.asm.obj               196    0         0      
        fs_div.asm.obj               156    0         0      
        copy_decompress_lzss.c.obj   124    0         0      
        fs_toi.asm.obj               104    0         0      
+       div32u.asm.obj               88     0         0      
        lsr16.asm.obj                76     0         0      
        autoinit.c.obj               66     0         0      
        lsl32.asm.obj                62     0         0      
@@ -217,24 +223,24 @@ MODULE SUMMARY
        int14.asm.obj                0      2         0      
        startup.c.obj                2      0         0      
     +--+----------------------------+------+---------+---------+
-       Total:                       1044   22        0      
+       Total:                       1132   22        0      
                                                             
        Stack:                       0      0         80     
-       Linker Generated:            0      32        0      
+       Linker Generated:            0      31        0      
     +--+----------------------------+------+---------+---------+
-       Grand Total:                 2914   104       322    
+       Grand Total:                 3090   103       322    
 
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 00008ba8 records: 2, size/record: 4, table size: 8
-	.data: load addr=00008b90, load size=0000000e bytes, run addr=000002e4, run size=0000000f bytes, compression=lzss
-	.bss: load addr=00008ba4, load size=00000004 bytes, run addr=00000200, run size=000000e3 bytes, compression=zero_init
+__TI_cinit_table @ 00008c58 records: 2, size/record: 4, table size: 8
+	.data: load addr=00008c40, load size=0000000d bytes, run addr=000002e4, run size=0000000f bytes, compression=lzss
+	.bss: load addr=00008c54, load size=00000004 bytes, run addr=00000200, run size=000000e3 bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 00008b9e records: 3, size/record: 2, table size: 6
+__TI_handler_table @ 00008c4e records: 3, size/record: 2, table size: 6
 	index: 0, handler: __TI_zero_init
 	index: 1, handler: __TI_decompress_lzss
 	index: 2, handler: __TI_decompress_none
@@ -244,7 +250,7 @@ GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name
 
 address   name                                      
 -------   ----                                      
-00008b56  C$$EXIT                                   
+00008c06  C$$EXIT                                   
 00000264  CMD1Data                                  
 000002dd  CMD1Length                                
 00000296  CMD2Data                                  
@@ -258,22 +264,23 @@ address   name
 00000055  CSERTCAL                                  
 00000052  CSIRFCAL                                  
 00000053  CSIRTCAL                                  
-00008940  CS_setupDCO                               
-00008b44  EUSCI_B_I2C_clearInterrupt                
-00008b4a  EUSCI_B_I2C_enable                        
-00008b50  EUSCI_B_I2C_enableInterrupt               
-000089c8  EUSCI_B_I2C_initSlave                     
-00008b20  EUSCI_B_I2C_setMode                       
-00008b2c  EUSCI_B_I2C_slaveGetData                  
-00008b34  EUSCI_B_I2C_slavePutData                  
+000089d2  CS_setupDCO                               
+00008bf4  EUSCI_B_I2C_clearInterrupt                
+00008bfa  EUSCI_B_I2C_enable                        
+00008c00  EUSCI_B_I2C_enableInterrupt               
+00008a5a  EUSCI_B_I2C_initSlave                     
+00008bd0  EUSCI_B_I2C_setMode                       
+00008bdc  EUSCI_B_I2C_slaveGetData                  
+00008be4  EUSCI_B_I2C_slavePutData                  
 00000128  FCTL1                                     
 0000012a  FCTL2                                     
 0000012c  FCTL3                                     
-00008a34  GPIO_setAsOutputPin                       
-00008890  GPIO_setAsPeripheralModuleFunctionInputPin
-00008a6e  GPIO_setOutputHighOnPin                   
-00008a84  GPIO_setOutputLowOnPin                    
-00008a9a  GPIO_toggleOutputOnPin                    
+0000896a  FlashCtl_setupClock                       
+00008ac6  GPIO_setAsOutputPin                       
+000088ec  GPIO_setAsPeripheralModuleFunctionInputPin
+00008b1e  GPIO_setOutputHighOnPin                   
+00008b34  GPIO_setOutputLowOnPin                    
+00008b4a  GPIO_toggleOutputOnPin                    
 00000000  IE1                                       
 00000002  IFG1                                      
 000002f0  LEDTime                                   
@@ -325,12 +332,12 @@ address   name
 000000b8  SD24PRE0                                  
 000000b9  SD24PRE1                                  
 000000bf  SD24TRIM                                  
-0000839a  SD24_ISR                                  
-000089ec  SD24_enableInterrupt                      
-000085a2  SD24_getResults                           
-00008a10  SD24_init                                 
-00008808  SD24_initConverterAdvanced                
-00008ada  SD24_startConverterConversion             
+0000839e  SD24_ISR                                  
+00008a7e  SD24_enableInterrupt                      
+000085a6  SD24_getResults                           
+00008aa2  SD24_init                                 
+00008864  SD24_initConverterAdvanced                
+00008b8a  SD24_startConverterConversion             
 0000013e  SUMEXT                                    
 000001fe  SYSJTAGDIS                                
 00000172  TA0CCR0                                   
@@ -430,21 +437,21 @@ address   name
 000001ce  UCB0TXBUF                                 
 000001cf  UCB0TXBUF_H                               
 000001ce  UCB0TXBUF_L                               
-000082d8  USCIB0_ISR                                
+000082dc  USCIB0_ISR                                
 00000061  VMONCTL                                   
 00000120  WDTCTL                                    
-00008ab0  WDT_hold                                  
+00008b60  WDT_hold                                  
 00000a00  __STACK_END                               
 00000050  __STACK_SIZE                              
-00008ba8  __TI_CINIT_Base                           
-00008bb0  __TI_CINIT_Limit                          
-00008bb0  __TI_CINIT_Warm                           
-00008b9e  __TI_Handler_Table_Base                   
-00008ba4  __TI_Handler_Table_Limit                  
-00008b3c  __TI_ISR_TRAP                             
-0000884e  __TI_auto_init_nobinit_nopinit            
-0000862e  __TI_decompress_lzss                      
-00008aec  __TI_decompress_none                      
+00008c58  __TI_CINIT_Base                           
+00008c60  __TI_CINIT_Limit                          
+00008c60  __TI_CINIT_Warm                           
+00008c4e  __TI_Handler_Table_Base                   
+00008c54  __TI_Handler_Table_Limit                  
+00008bec  __TI_ISR_TRAP                             
+000088aa  __TI_auto_init_nobinit_nopinit            
+00008632  __TI_decompress_lzss                      
+00008b9c  __TI_decompress_none                      
 0000ffe2  __TI_int01                                
 0000ffe8  __TI_int04                                
 0000ffea  __TI_int05                                
@@ -460,80 +467,83 @@ address   name
 ffffffff  __TI_pprof_out_hndl                       
 ffffffff  __TI_prof_data_size                       
 ffffffff  __TI_prof_data_start                      
-00008ac6  __TI_zero_init_nomemset                   
+00008b76  __TI_zero_init_nomemset                   
 ffffffff  __c_args__                                
-00008506  __mspabi_divf                             
-000086aa  __mspabi_fixfi                            
-0000890e  __mspabi_fltulf                           
-00008b1c  __mspabi_func_epilog_1                    
-00008b1a  __mspabi_func_epilog_2                    
-00008b18  __mspabi_func_epilog_3                    
-00008b16  __mspabi_func_epilog_4                    
-00008b14  __mspabi_func_epilog_5                    
-00008b12  __mspabi_func_epilog_6                    
-00008b10  __mspabi_func_epilog_7                    
-00008214  __mspabi_mpyf                             
-0000896e  __mspabi_mpyl_hw                          
-0000899c  __mspabi_slli                             
-000089c4  __mspabi_slli_1                           
-000089b2  __mspabi_slli_10                          
-000089b0  __mspabi_slli_11                          
-000089ae  __mspabi_slli_12                          
-000089ac  __mspabi_slli_13                          
-000089aa  __mspabi_slli_14                          
-000089a8  __mspabi_slli_15                          
-000089c2  __mspabi_slli_2                           
-000089c0  __mspabi_slli_3                           
-000089be  __mspabi_slli_4                           
-000089bc  __mspabi_slli_5                           
-000089ba  __mspabi_slli_6                           
-000089b8  __mspabi_slli_7                           
-000089b6  __mspabi_slli_8                           
-000089b4  __mspabi_slli_9                           
-00008908  __mspabi_slll_1                           
-000088e4  __mspabi_slll_10                          
-000088e0  __mspabi_slll_11                          
-000088dc  __mspabi_slll_12                          
-000088d8  __mspabi_slll_13                          
-000088d4  __mspabi_slll_14                          
-000088d0  __mspabi_slll_15                          
-00008904  __mspabi_slll_2                           
-00008900  __mspabi_slll_3                           
-000088fc  __mspabi_slll_4                           
-000088f8  __mspabi_slll_5                           
-000088f4  __mspabi_slll_6                           
-000088f0  __mspabi_slll_7                           
-000088ec  __mspabi_slll_8                           
-000088e8  __mspabi_slll_9                           
-00008772  __mspabi_srli                             
-000087b8  __mspabi_srli_1                           
-00008794  __mspabi_srli_10                          
-00008790  __mspabi_srli_11                          
-0000878c  __mspabi_srli_12                          
-00008788  __mspabi_srli_13                          
-00008784  __mspabi_srli_14                          
-00008780  __mspabi_srli_15                          
-000087b4  __mspabi_srli_2                           
-000087b0  __mspabi_srli_3                           
-000087ac  __mspabi_srli_4                           
-000087a8  __mspabi_srli_5                           
-000087a4  __mspabi_srli_6                           
-000087a0  __mspabi_srli_7                           
-0000879c  __mspabi_srli_8                           
-00008798  __mspabi_srli_9                           
-00008a52  _c_int00_noargs                           
+0000850a  __mspabi_divf                             
+00008776  __mspabi_divul                            
+000086ae  __mspabi_fixfi                            
+000089a0  __mspabi_fltulf                           
+00008bcc  __mspabi_func_epilog_1                    
+00008bca  __mspabi_func_epilog_2                    
+00008bc8  __mspabi_func_epilog_3                    
+00008bc6  __mspabi_func_epilog_4                    
+00008bc4  __mspabi_func_epilog_5                    
+00008bc2  __mspabi_func_epilog_6                    
+00008bc0  __mspabi_func_epilog_7                    
+00008218  __mspabi_mpyf                             
+00008a00  __mspabi_mpyl_hw                          
+00008776  __mspabi_remul                            
+00008a2e  __mspabi_slli                             
+00008a56  __mspabi_slli_1                           
+00008a44  __mspabi_slli_10                          
+00008a42  __mspabi_slli_11                          
+00008a40  __mspabi_slli_12                          
+00008a3e  __mspabi_slli_13                          
+00008a3c  __mspabi_slli_14                          
+00008a3a  __mspabi_slli_15                          
+00008a54  __mspabi_slli_2                           
+00008a52  __mspabi_slli_3                           
+00008a50  __mspabi_slli_4                           
+00008a4e  __mspabi_slli_5                           
+00008a4c  __mspabi_slli_6                           
+00008a4a  __mspabi_slli_7                           
+00008a48  __mspabi_slli_8                           
+00008a46  __mspabi_slli_9                           
+00008964  __mspabi_slll_1                           
+00008940  __mspabi_slll_10                          
+0000893c  __mspabi_slll_11                          
+00008938  __mspabi_slll_12                          
+00008934  __mspabi_slll_13                          
+00008930  __mspabi_slll_14                          
+0000892c  __mspabi_slll_15                          
+00008960  __mspabi_slll_2                           
+0000895c  __mspabi_slll_3                           
+00008958  __mspabi_slll_4                           
+00008954  __mspabi_slll_5                           
+00008950  __mspabi_slll_6                           
+0000894c  __mspabi_slll_7                           
+00008948  __mspabi_slll_8                           
+00008944  __mspabi_slll_9                           
+000087ce  __mspabi_srli                             
+00008814  __mspabi_srli_1                           
+000087f0  __mspabi_srli_10                          
+000087ec  __mspabi_srli_11                          
+000087e8  __mspabi_srli_12                          
+000087e4  __mspabi_srli_13                          
+000087e0  __mspabi_srli_14                          
+000087dc  __mspabi_srli_15                          
+00008810  __mspabi_srli_2                           
+0000880c  __mspabi_srli_3                           
+00008808  __mspabi_srli_4                           
+00008804  __mspabi_srli_5                           
+00008800  __mspabi_srli_6                           
+000087fc  __mspabi_srli_7                           
+000087f8  __mspabi_srli_8                           
+000087f4  __mspabi_srli_9                           
+00008b02  _c_int00_noargs                           
 0000fffe  _reset_vector                             
 000009b0  _stack                                    
-00008b60  _system_post_cinit                        
-00008b5c  _system_pre_init                          
-00008b56  abort                                     
+00008c10  _system_post_cinit                        
+00008c0c  _system_pre_init                          
+00008c06  abort                                     
 000002e8  currentLimit                              
 000002e4  i                                         
-000087be  init_gpio                                 
-00008712  init_i2c                                  
-00008452  init_sd24                                 
+00008ae4  init_flash                                
+0000881a  init_gpio                                 
+00008716  init_i2c                                  
+00008456  init_sd24                                 
 00008000  main                                      
-00008afe  memcpy                                    
+00008bae  memcpy                                    
 000002e6  polarity                                  
 000002ea  vOffset1                                  
 000002ec  vOffset2                                  
@@ -722,105 +732,109 @@ address   name
 000009b0  _stack                                    
 00000a00  __STACK_END                               
 00008000  main                                      
-00008214  __mspabi_mpyf                             
-000082d8  USCIB0_ISR                                
-0000839a  SD24_ISR                                  
-00008452  init_sd24                                 
-00008506  __mspabi_divf                             
-000085a2  SD24_getResults                           
-0000862e  __TI_decompress_lzss                      
-000086aa  __mspabi_fixfi                            
-00008712  init_i2c                                  
-00008772  __mspabi_srli                             
-00008780  __mspabi_srli_15                          
-00008784  __mspabi_srli_14                          
-00008788  __mspabi_srli_13                          
-0000878c  __mspabi_srli_12                          
-00008790  __mspabi_srli_11                          
-00008794  __mspabi_srli_10                          
-00008798  __mspabi_srli_9                           
-0000879c  __mspabi_srli_8                           
-000087a0  __mspabi_srli_7                           
-000087a4  __mspabi_srli_6                           
-000087a8  __mspabi_srli_5                           
-000087ac  __mspabi_srli_4                           
-000087b0  __mspabi_srli_3                           
-000087b4  __mspabi_srli_2                           
-000087b8  __mspabi_srli_1                           
-000087be  init_gpio                                 
-00008808  SD24_initConverterAdvanced                
-0000884e  __TI_auto_init_nobinit_nopinit            
-00008890  GPIO_setAsPeripheralModuleFunctionInputPin
-000088d0  __mspabi_slll_15                          
-000088d4  __mspabi_slll_14                          
-000088d8  __mspabi_slll_13                          
-000088dc  __mspabi_slll_12                          
-000088e0  __mspabi_slll_11                          
-000088e4  __mspabi_slll_10                          
-000088e8  __mspabi_slll_9                           
-000088ec  __mspabi_slll_8                           
-000088f0  __mspabi_slll_7                           
-000088f4  __mspabi_slll_6                           
-000088f8  __mspabi_slll_5                           
-000088fc  __mspabi_slll_4                           
-00008900  __mspabi_slll_3                           
-00008904  __mspabi_slll_2                           
-00008908  __mspabi_slll_1                           
-0000890e  __mspabi_fltulf                           
-00008940  CS_setupDCO                               
-0000896e  __mspabi_mpyl_hw                          
-0000899c  __mspabi_slli                             
-000089a8  __mspabi_slli_15                          
-000089aa  __mspabi_slli_14                          
-000089ac  __mspabi_slli_13                          
-000089ae  __mspabi_slli_12                          
-000089b0  __mspabi_slli_11                          
-000089b2  __mspabi_slli_10                          
-000089b4  __mspabi_slli_9                           
-000089b6  __mspabi_slli_8                           
-000089b8  __mspabi_slli_7                           
-000089ba  __mspabi_slli_6                           
-000089bc  __mspabi_slli_5                           
-000089be  __mspabi_slli_4                           
-000089c0  __mspabi_slli_3                           
-000089c2  __mspabi_slli_2                           
-000089c4  __mspabi_slli_1                           
-000089c8  EUSCI_B_I2C_initSlave                     
-000089ec  SD24_enableInterrupt                      
-00008a10  SD24_init                                 
-00008a34  GPIO_setAsOutputPin                       
-00008a52  _c_int00_noargs                           
-00008a6e  GPIO_setOutputHighOnPin                   
-00008a84  GPIO_setOutputLowOnPin                    
-00008a9a  GPIO_toggleOutputOnPin                    
-00008ab0  WDT_hold                                  
-00008ac6  __TI_zero_init_nomemset                   
-00008ada  SD24_startConverterConversion             
-00008aec  __TI_decompress_none                      
-00008afe  memcpy                                    
-00008b10  __mspabi_func_epilog_7                    
-00008b12  __mspabi_func_epilog_6                    
-00008b14  __mspabi_func_epilog_5                    
-00008b16  __mspabi_func_epilog_4                    
-00008b18  __mspabi_func_epilog_3                    
-00008b1a  __mspabi_func_epilog_2                    
-00008b1c  __mspabi_func_epilog_1                    
-00008b20  EUSCI_B_I2C_setMode                       
-00008b2c  EUSCI_B_I2C_slaveGetData                  
-00008b34  EUSCI_B_I2C_slavePutData                  
-00008b3c  __TI_ISR_TRAP                             
-00008b44  EUSCI_B_I2C_clearInterrupt                
-00008b4a  EUSCI_B_I2C_enable                        
-00008b50  EUSCI_B_I2C_enableInterrupt               
-00008b56  C$$EXIT                                   
-00008b56  abort                                     
-00008b5c  _system_pre_init                          
-00008b60  _system_post_cinit                        
-00008b9e  __TI_Handler_Table_Base                   
-00008ba4  __TI_Handler_Table_Limit                  
-00008ba8  __TI_CINIT_Base                           
-00008bb0  __TI_CINIT_Limit                          
-00008bb0  __TI_CINIT_Warm                           
+00008218  __mspabi_mpyf                             
+000082dc  USCIB0_ISR                                
+0000839e  SD24_ISR                                  
+00008456  init_sd24                                 
+0000850a  __mspabi_divf                             
+000085a6  SD24_getResults                           
+00008632  __TI_decompress_lzss                      
+000086ae  __mspabi_fixfi                            
+00008716  init_i2c                                  
+00008776  __mspabi_divul                            
+00008776  __mspabi_remul                            
+000087ce  __mspabi_srli                             
+000087dc  __mspabi_srli_15                          
+000087e0  __mspabi_srli_14                          
+000087e4  __mspabi_srli_13                          
+000087e8  __mspabi_srli_12                          
+000087ec  __mspabi_srli_11                          
+000087f0  __mspabi_srli_10                          
+000087f4  __mspabi_srli_9                           
+000087f8  __mspabi_srli_8                           
+000087fc  __mspabi_srli_7                           
+00008800  __mspabi_srli_6                           
+00008804  __mspabi_srli_5                           
+00008808  __mspabi_srli_4                           
+0000880c  __mspabi_srli_3                           
+00008810  __mspabi_srli_2                           
+00008814  __mspabi_srli_1                           
+0000881a  init_gpio                                 
+00008864  SD24_initConverterAdvanced                
+000088aa  __TI_auto_init_nobinit_nopinit            
+000088ec  GPIO_setAsPeripheralModuleFunctionInputPin
+0000892c  __mspabi_slll_15                          
+00008930  __mspabi_slll_14                          
+00008934  __mspabi_slll_13                          
+00008938  __mspabi_slll_12                          
+0000893c  __mspabi_slll_11                          
+00008940  __mspabi_slll_10                          
+00008944  __mspabi_slll_9                           
+00008948  __mspabi_slll_8                           
+0000894c  __mspabi_slll_7                           
+00008950  __mspabi_slll_6                           
+00008954  __mspabi_slll_5                           
+00008958  __mspabi_slll_4                           
+0000895c  __mspabi_slll_3                           
+00008960  __mspabi_slll_2                           
+00008964  __mspabi_slll_1                           
+0000896a  FlashCtl_setupClock                       
+000089a0  __mspabi_fltulf                           
+000089d2  CS_setupDCO                               
+00008a00  __mspabi_mpyl_hw                          
+00008a2e  __mspabi_slli                             
+00008a3a  __mspabi_slli_15                          
+00008a3c  __mspabi_slli_14                          
+00008a3e  __mspabi_slli_13                          
+00008a40  __mspabi_slli_12                          
+00008a42  __mspabi_slli_11                          
+00008a44  __mspabi_slli_10                          
+00008a46  __mspabi_slli_9                           
+00008a48  __mspabi_slli_8                           
+00008a4a  __mspabi_slli_7                           
+00008a4c  __mspabi_slli_6                           
+00008a4e  __mspabi_slli_5                           
+00008a50  __mspabi_slli_4                           
+00008a52  __mspabi_slli_3                           
+00008a54  __mspabi_slli_2                           
+00008a56  __mspabi_slli_1                           
+00008a5a  EUSCI_B_I2C_initSlave                     
+00008a7e  SD24_enableInterrupt                      
+00008aa2  SD24_init                                 
+00008ac6  GPIO_setAsOutputPin                       
+00008ae4  init_flash                                
+00008b02  _c_int00_noargs                           
+00008b1e  GPIO_setOutputHighOnPin                   
+00008b34  GPIO_setOutputLowOnPin                    
+00008b4a  GPIO_toggleOutputOnPin                    
+00008b60  WDT_hold                                  
+00008b76  __TI_zero_init_nomemset                   
+00008b8a  SD24_startConverterConversion             
+00008b9c  __TI_decompress_none                      
+00008bae  memcpy                                    
+00008bc0  __mspabi_func_epilog_7                    
+00008bc2  __mspabi_func_epilog_6                    
+00008bc4  __mspabi_func_epilog_5                    
+00008bc6  __mspabi_func_epilog_4                    
+00008bc8  __mspabi_func_epilog_3                    
+00008bca  __mspabi_func_epilog_2                    
+00008bcc  __mspabi_func_epilog_1                    
+00008bd0  EUSCI_B_I2C_setMode                       
+00008bdc  EUSCI_B_I2C_slaveGetData                  
+00008be4  EUSCI_B_I2C_slavePutData                  
+00008bec  __TI_ISR_TRAP                             
+00008bf4  EUSCI_B_I2C_clearInterrupt                
+00008bfa  EUSCI_B_I2C_enable                        
+00008c00  EUSCI_B_I2C_enableInterrupt               
+00008c06  C$$EXIT                                   
+00008c06  abort                                     
+00008c0c  _system_pre_init                          
+00008c10  _system_post_cinit                        
+00008c4e  __TI_Handler_Table_Base                   
+00008c54  __TI_Handler_Table_Limit                  
+00008c58  __TI_CINIT_Base                           
+00008c60  __TI_CINIT_Limit                          
+00008c60  __TI_CINIT_Warm                           
 0000ffe2  __TI_int01                                
 0000ffe8  __TI_int04                                
 0000ffea  __TI_int05                                
@@ -839,4 +853,4 @@ ffffffff  __TI_prof_data_size
 ffffffff  __TI_prof_data_start                      
 ffffffff  __c_args__                                
 
-[294 symbols]
+[298 symbols]
