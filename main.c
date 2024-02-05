@@ -9,6 +9,17 @@
 #define NUM_OF_TX_BYTES 50
 #define NUM_OF_RX_BYTES 50
 
+
+// 8ms Period Calculation:
+// SMCLK = DCO = 16.384 MHz
+// TACLK = SMCLK / 40 = 0.4096 MHz
+// 5ms / (1 / 0.4096MHz) = 2048
+#define TIMER_PERIOD        2048
+
+// 75% Duty Cycle Calculation:
+// TIMER_PERIOD * 0.75 = 24576
+#define TIMER_DUTY_CYCLE    1536
+
 static volatile uint8_t RXData[NUM_OF_RX_BYTES];
 static volatile uint8_t RXDataIndex;
 static volatile uint8_t RXInProgress; // flag to indicate RX command receiving in progress.
@@ -129,17 +140,17 @@ void init_gpio(void)
     // P1.0 VO_EN1 output, default low
     // P1.1 VO_EN2 output, default low
     // P1.4 VO_EN3 output, default low
-    // P1.5 LED indicator, default low
+
 
     GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN0);
     GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN1);
     GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN4);
-    GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN5);
+
 
     GPIO_setAsOutputPin(GPIO_PORT_P1, GPIO_PIN0);
     GPIO_setAsOutputPin(GPIO_PORT_P1, GPIO_PIN1);
     GPIO_setAsOutputPin(GPIO_PORT_P1, GPIO_PIN4);
-    GPIO_setAsOutputPin(GPIO_PORT_P1, GPIO_PIN5);
+
 }
 
 void init_i2c(void)
@@ -243,6 +254,27 @@ void main(void)
     // Initalize SD24's 2 analogue channels
     init_sd24();
 
+    Timer_A_outputPWMParam outputPWMConfig = {
+            TIMER_A_CLOCKSOURCE_SMCLK,          // SMCLK Clock Source
+            TIMER_A_CLOCKSOURCE_DIVIDER_4,      // SMCLK/4 = 4.096 MHz
+            TIMER_PERIOD ,                       // 5ms
+            TIMER_A_CAPTURECOMPARE_REGISTER_1,  // Output on TA0.1
+            TIMER_A_OUTPUTMODE_RESET_SET,       // Generate PWM
+            TIMER_DUTY_CYCLE                    // 75% Duty Cycle
+     };
+
+
+
+    CS_initClockSignal(CS_SMCLK, CS_CLOCK_DIVIDER_1);
+
+    // Setting up P1.5 as TA0.1 for PWM signal generation
+    GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1,
+                                                GPIO_PIN5,
+                                                GPIO_SECONDARY_MODULE_FUNCTION);
+
+    // Configure the timer to use ACLK and interrupt on overflow
+    //Timer_A_outputPWM(TIMER_A0_BASE, &outputPWMConfig);
+
     // Define / Set GPIO Relays to polarity stored in flash
     // Merge with init_gpio function later
     if (polarity)
@@ -259,8 +291,7 @@ void main(void)
     // P1.4: 12V to enable relay switches
     GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN4);
 
-    // P1.5: LED
-    GPIO_setOutputLowOnPin(GPIO_PORT_P1, GPIO_PIN5);
+    __bis_SR_register(GIE); //
 
     // Infinite loop
     while (true)
@@ -270,9 +301,14 @@ void main(void)
         if (hv_update)
         {
 
-            __disable_interrupt(); // disable all interrupts --> GIE = 0 (LOW)
-
             // copy to local
+            // calculate voltage and current
+
+            hv_v = (unsigned long long) Ch0results * 1158 / 0x7FFFFF;
+            hv_v= hv_v * (float)HV_V_RATIO;
+
+            hv_c = (unsigned long long) Ch1results * 1158 / 0x7FFFFF / (float)HV_C_RATIO;
+
             temp_v = (int)hv_v;
             temp_c = (int)hv_c;
             hv_update = 0; // Clear flag
@@ -281,13 +317,21 @@ void main(void)
             //  Need to add a flag on when the new ADC value is available.
             if ((temp_v < 5000) && (temp_c < 3000))
             { // valid voltage reading
+                __disable_interrupt(); // disable all interrupts --> GIE = 0 (LOW)
                 TXData[1] = temp_v;
                 TXData[0] = temp_v >> 8;
                 TXData[3] = temp_c;
                 TXData[2] = temp_c >> 8;
+                __enable_interrupt(); // enable all interrupts --> GIE = 1 (HIGH)
+
+                if  (outputPWMConfig.timerPeriod!=  TIMER_PERIOD * (31-(temp_v/100))) {
+                        outputPWMConfig.timerPeriod = TIMER_PERIOD * (31-(temp_v/100));
+                        outputPWMConfig.dutyCycle =  outputPWMConfig.timerPeriod *0.25;
+                        Timer_A_outputPWM(TIMER_A0_BASE, &outputPWMConfig);
+                }
             }
 
-            __enable_interrupt(); // enable all interrupts --> GIE = 1 (HIGH)
+
 
             // Protection code
             // Current over current limit, cut 12V to relays
@@ -426,7 +470,7 @@ void main(void)
         if (LEDTime == 20000)
         {
             LEDTime = 0;
-            GPIO_toggleOutputOnPin(GPIO_PORT_P1, GPIO_PIN5);
+
         }
     }
 }
@@ -527,14 +571,13 @@ __interrupt void SD24_ISR(void)
 
         // Save CH0 results (clears IFG)
         Ch0results = SD24_getResults(SD24_BASE, SD24_CONVERTER_0);
-        // calculate voltage and current
-        hv_v = Ch0results * 1158 / (float)0x7FFFFF * (float)HV_V_RATIO;
+
         break;
     case SD24IV_SD24MEM1:
 
         // Save CH1 results (clears IFG)
         Ch1results = SD24_getResults(SD24_BASE, SD24_CONVERTER_1);
-        hv_c = Ch1results * 1158 / (float)0x7FFFFF / (float)HV_C_RATIO;
+
         hv_update = 1; // a flag to indicate new ADC value is available
 
         break;
