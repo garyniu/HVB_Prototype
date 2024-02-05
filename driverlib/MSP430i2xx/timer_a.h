@@ -295,6 +295,7 @@ typedef struct Timer_A_initCompareModeParam {
 #define TIMER_A_CLOCKSOURCE_DIVIDER_2                                      0x08
 #define TIMER_A_CLOCKSOURCE_DIVIDER_4                                      0x10
 #define TIMER_A_CLOCKSOURCE_DIVIDER_8                                      0x18
+#define TIMER_A_CLOCKSOURCE_DIVIDER_64                                     0x20
 
 //*****************************************************************************
 //

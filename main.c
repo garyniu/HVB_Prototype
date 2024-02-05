@@ -14,11 +14,13 @@
 // SMCLK = DCO = 16.384 MHz
 // TACLK = SMCLK / 40 = 0.4096 MHz
 // 5ms / (1 / 0.4096MHz) = 2048
-#define TIMER_PERIOD        2048
+#define TIMER_PERIOD        205
 
 // 75% Duty Cycle Calculation:
 // TIMER_PERIOD * 0.75 = 24576
-#define TIMER_DUTY_CYCLE    1536
+#define TIMER_DUTY_CYCLE    1024
+
+//1536
 
 static volatile uint8_t RXData[NUM_OF_RX_BYTES];
 static volatile uint8_t RXDataIndex;
@@ -88,8 +90,7 @@ uint16_t vOffset3 = 0;
 // 16 bytes of RFID data
 uint8_t rfidData[16];
 
-// Values for Protection and LED Flash
-int LEDTime = 0;
+// Values for Protection
 bool ProtectionFlag = false;
 
 // Functions declarations
@@ -256,8 +257,8 @@ void main(void)
 
     Timer_A_outputPWMParam outputPWMConfig = {
             TIMER_A_CLOCKSOURCE_SMCLK,          // SMCLK Clock Source
-            TIMER_A_CLOCKSOURCE_DIVIDER_4,      // SMCLK/4 = 4.096 MHz
-            TIMER_PERIOD ,                       // 5ms
+            0x18,      // SMCLK/64 (0x20) = 4.096 MHz
+            1024,                       // 5ms
             TIMER_A_CAPTURECOMPARE_REGISTER_1,  // Output on TA0.1
             TIMER_A_OUTPUTMODE_RESET_SET,       // Generate PWM
             TIMER_DUTY_CYCLE                    // 75% Duty Cycle
@@ -273,7 +274,7 @@ void main(void)
                                                 GPIO_SECONDARY_MODULE_FUNCTION);
 
     // Configure the timer to use ACLK and interrupt on overflow
-    //Timer_A_outputPWM(TIMER_A0_BASE, &outputPWMConfig);
+    Timer_A_outputPWM(TIMER_A0_BASE, &outputPWMConfig);
 
     // Define / Set GPIO Relays to polarity stored in flash
     // Merge with init_gpio function later
@@ -347,7 +348,6 @@ void main(void)
             if (temp_v < 10 && ProtectionFlag == true)
             {
 
-                _delay_cycles(16000000);
                 GPIO_setOutputHighOnPin(GPIO_PORT_P1, GPIO_PIN4);
             }
         }
@@ -464,14 +464,7 @@ void main(void)
         }
 
         // Flash LED code
-        if (ProtectionFlag)
-            LEDTime += 1;
-
-        if (LEDTime == 20000)
-        {
-            LEDTime = 0;
-
-        }
+        if (ProtectionFlag);
     }
 }
 
