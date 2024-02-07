@@ -198,16 +198,28 @@ void init_flash(void)
 {
     FlashCtl_setupClock(390095, 16384000, FLASHCTL_MCLK);
 }
-
+#define TESTSEGSTART 0x1060
 void write_flash()
 {
+    __disable_interrupt();  
+
+    uint32_t *loc = (uint32_t *)TESTSEGSTART;
+    uint8_t Value = 0b101101;
+
     // Writes value to a defined location
+    FlashCtl_unlockInfo();
+    FlashCtl_eraseSegment(loc);
+    FlashCtl_write8(Value, loc, 1);
+    FlashCtl_lockInfo();
+
+    
 
     // 0: polarity
     // 1: Current limit (16 bit)
     // 2: VOff 1000 (16 bit)
     // 3: VOff 2000 (16 bit)
     // 4: VOff 3000 (16 bit)
+    __enable_interrupt();
 }
 
 void write_rfid_flash()
@@ -217,6 +229,15 @@ void write_rfid_flash()
 
 uint16_t read_flash()
 {
+    //NOt reading correct value
+    FlashCtl_unlockInfo();
+    uint32_t *loc = (uint32_t *)0x01000;
+    FlashCtl_lockInfo();
+
+    printf(*loc); //Here to prevent compiler optimization from deleting
+                  //the value
+    printf("\n");
+
 }
 
 struct RFIDReturn
@@ -243,6 +264,10 @@ void main(void)
     // Init Flash
     init_flash();
 
+    write_flash();
+
+    read_flash();
+    printf("Hello WOrld!\n");
     // Read flash, to global variables
     // flash_read();
 
@@ -465,6 +490,7 @@ void main(void)
 
         // Flash LED code
         if (ProtectionFlag);
+
     }
 }
 
