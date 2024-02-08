@@ -9,6 +9,9 @@
 #define NUM_OF_TX_BYTES 50
 #define NUM_OF_RX_BYTES 50
 
+//Flash definition
+#define FLOC 0x1060
+//Location in flash
 
 // 8ms Period Calculation:
 // SMCLK = DCO = 16.384 MHz
@@ -198,18 +201,27 @@ void init_flash(void)
 {
     FlashCtl_setupClock(390095, 16384000, FLASHCTL_MCLK);
 }
-#define TESTSEGSTART 0x1060
-void write_flash()
+
+void write_flash(uint8_t polarity, uint16_t CLim, uint16_t Off1, uint16_t Off2, uint16_t Off3)
 {
     __disable_interrupt();  
 
-    uint32_t *loc = (uint32_t *)TESTSEGSTART;
-    uint8_t Value = 0b101101;
+    uint32_t *FlashLocation = (uint32_t *)FLOC;
 
     // Writes value to a defined location
     FlashCtl_unlockInfo();
-    FlashCtl_eraseSegment(loc);
-    FlashCtl_write8(Value, loc, 1);
+    FlashCtl_eraseSegment(FlashLocation);
+    FlashCtl_write8(polarity, FlashLocation++, 1);  //Postincrement to shift memory position
+
+    FlashCtl_write16(CLim, FlashLocation, 1);
+    FlashLocation += 2;
+
+    FlashCtl_write16(Off1, FlashLocation, 1);
+    FlashLocation += 2;
+    FlashCtl_write16(Off2, FlashLocation, 1);
+    FlashLocation += 2;
+    FlashCtl_write16(Off3, FlashLocation, 1);
+
     FlashCtl_lockInfo();
 
     
@@ -222,16 +234,56 @@ void write_flash()
     __enable_interrupt();
 }
 
-void write_rfid_flash()
+void write_rfid_flash(uint8_t DataArr)
 {
+
+    uint32_t *FlashLocation = (uint32_t *)FLOC + 10; //Shift 10 bytes over to prevent overwriting other data
     // 5: RFID (16 bytes, 128 bit)
+
+    __disable_interrupt();  
+    FlashCtl_unlockInfo();
+    //Any chance this might cause least significant bit to flip over? (Wrong order)
+    for (int i = 0; i < 16; i++){
+        FlashCtl_write16(DataArr[i], FlashLocation++, 1);
+    }
+
+    FlashCtl_lockInfo();
+    __enable_interrupt();  
+
+
 }
 
-uint16_t read_flash()
+uint16_t read_flash(int WantedValue)
 {
+    //Wanted value
+        //1: Polarity
+        //2: 
+        //3: 
+        //4:
+        //5:
+
+
     //NOt reading correct value
     FlashCtl_unlockInfo();
-    uint32_t *loc = (uint32_t *)0x01000;
+
+    switch (WantedValue){
+        case 1:
+            return;
+        case 2:
+            return;
+
+        case 3:
+            return;
+
+        case 4:
+            return;
+
+        case 5:
+
+    }
+
+
+    //uint32_t *loc = (uint32_t *)0x01000;
     FlashCtl_lockInfo();
 
     printf(*loc); //Here to prevent compiler optimization from deleting
