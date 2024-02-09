@@ -319,7 +319,7 @@ void main(void)
     write_flash();
 
     read_flash();
-    printf("Hello WOrld!\n");
+
     // Read flash, to global variables
     // flash_read();
 
