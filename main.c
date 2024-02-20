@@ -207,8 +207,14 @@ void init_flash(void)
     vOffset2 = *(uint8_t *)(FLOC + 21) | *(uint8_t *)(FLOC + 22) << 8;
     vOffset3 = *(uint8_t *)(FLOC + 23) | *(uint8_t *)(FLOC + 24) << 8;
 
-
-    printf(*(uint8_t *)(FLOC + 25));
+    // First start / values contain garbage
+    if (polarity != 0 || polarity != 1) {
+        polarity = 0;
+        currentLimit = 0;
+        vOffset1 = 0;
+        vOffset2 = 0;
+        vOffset3 = 0;
+    }
 
 }
 
@@ -239,6 +245,7 @@ void write_flash(){
     if (FlashCtl_performEraseCheck (FlashL, 9)==STATUS_FAIL){
          FlashCtl_eraseSegment (FlashL);
     }
+
 
     FlashCtl_write8(&polarity, FlashL, 1);
     FlashCtl_write8((currentLimit | 0b11111111), FlashL + 1, 1);
