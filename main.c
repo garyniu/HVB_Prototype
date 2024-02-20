@@ -84,7 +84,7 @@ static volatile float hv_c; // in 0.1uA
 static volatile uint8_t hv_update; // HV ADC value updated
 
 // Flash Values
-int polarity = 0;             // 0 = Default direction, 1 = Reversed direction
+uint8_t polarity = 0;             // 0 = Default direction, 1 = Reversed direction
 uint16_t currentLimit = 1000; // value in .01ua
 uint16_t vOffset1 = 0;
 uint16_t vOffset2 = 0;
@@ -200,106 +200,62 @@ void init_i2c(void)
 void init_flash(void)
 {
     FlashCtl_setupClock(390095, 16384000, FLASHCTL_MCLK);
+
+    polarity = *(uint8_t *)(FLOC + 16);
+    currentLimit = *(uint8_t *)(FLOC + 17) | *(uint8_t *)(FLOC + 18) << 8;
+    vOffset1 = *(uint8_t *)(FLOC + 19) | *(uint8_t *)(FLOC + 20) << 8;
+    vOffset2 = *(uint8_t *)(FLOC + 21) | *(uint8_t *)(FLOC + 22) << 8;
+    vOffset3 = *(uint8_t *)(FLOC + 23) | *(uint8_t *)(FLOC + 24) << 8;
+
+
+    printf(*(uint8_t *)(FLOC + 25));
+
 }
 
-void write_flash(uint8_t polarity, uint16_t CLim, uint16_t Off1, uint16_t Off2, uint16_t Off3)
+// erase segment might erase the flash! (512 bytes)
+void write_rfid_flash(uint8_t* DataArr, uint8_t * FlashL )
 {
-    __disable_interrupt();  
-
-    uint32_t *FlashLocation = (uint32_t *)FLOC;
-
-    // Writes value to a defined location
-    FlashCtl_unlockInfo();
-    FlashCtl_eraseSegment(FlashLocation);
-    FlashCtl_write8(polarity, FlashLocation++, 1);  //Postincrement to shift memory position
-
-    FlashCtl_write16(CLim, FlashLocation, 1);
-    FlashLocation += 2;
-
-    FlashCtl_write16(Off1, FlashLocation, 1);
-    FlashLocation += 2;
-    FlashCtl_write16(Off2, FlashLocation, 1);
-    FlashLocation += 2;
-    FlashCtl_write16(Off3, FlashLocation, 1);
-
-    FlashCtl_lockInfo();
-
-    
-
-    // 0: polarity
-    // 1: Current limit (16 bit)
-    // 2: VOff 1000 (16 bit)
-    // 3: VOff 2000 (16 bit)
-    // 4: VOff 3000 (16 bit)
-    __enable_interrupt();
-}
-
-void write_rfid_flash(uint8_t DataArr)
-{
-
-    uint32_t *FlashLocation = (uint32_t *)FLOC + 10; //Shift 10 bytes over to prevent overwriting other data
-    // 5: RFID (16 bytes, 128 bit)
-
-    __disable_interrupt();  
+    // Update / merge with write_flash, or else eraseSegment 
+    // might delete all stored flash data
     FlashCtl_unlockInfo();
     //Any chance this might cause least significant bit to flip over? (Wrong order)
-    for (int i = 0; i < 16; i++){
-        FlashCtl_write16(DataArr[i], FlashLocation++, 1);
+    if (FlashCtl_performEraseCheck (FlashL,16)==STATUS_FAIL){
+         FlashCtl_eraseSegment (FlashL);
     }
 
-    FlashCtl_lockInfo();
-    __enable_interrupt();  
+    FlashCtl_write8(DataArr, FlashL, 16);
 
+
+    FlashCtl_lockInfo();
 
 }
 
-uint16_t read_flash(int WantedValue)
-{
-    //Wanted value
-        //1: Polarity
-        //2: 
-        //3: 
-        //4:
-        //5:
+void write_flash(){
 
+    uint8_t * FlashL = FLOC + 16;
 
-    //NOt reading correct value
     FlashCtl_unlockInfo();
-
-    switch (WantedValue){
-        case 1:
-            return;
-        case 2:
-            return;
-
-        case 3:
-            return;
-
-        case 4:
-            return;
-
-        case 5:
-
+    //Any chance this might cause least significant bit to flip over? (Wrong order)
+    if (FlashCtl_performEraseCheck (FlashL, 9)==STATUS_FAIL){
+         FlashCtl_eraseSegment (FlashL);
     }
 
+    FlashCtl_write8(&polarity, FlashL, 1);
+    FlashCtl_write8((currentLimit | 0b11111111), FlashL + 1, 1);
+    FlashCtl_write8(currentLimit | (0b11111111 << 8) >> 8, FlashL + 2, 1);
 
-    //uint32_t *loc = (uint32_t *)0x01000;
+    FlashCtl_write8(vOffset1 | 0b11111111, FlashL + 3, 1);
+    FlashCtl_write8(vOffset1 | (0b11111111 << 8) >> 8, FlashL + 4, 1);
+
+    FlashCtl_write8(vOffset2 | 0b11111111, FlashL + 5, 1);
+    FlashCtl_write8(vOffset2 | (0b11111111 << 8) >> 8, FlashL + 6, 1);
+
+    FlashCtl_write8(vOffset3 | 0b11111111, FlashL + 7, 1);
+    FlashCtl_write8(vOffset3 | (0b11111111 << 8) >> 8, FlashL + 8, 1);
+
     FlashCtl_lockInfo();
 
-    printf(*loc); //Here to prevent compiler optimization from deleting
-                  //the value
-    printf("\n");
-
 }
-
-struct RFIDReturn
-{
-    uint8_t data[16];
-} RFIDReturnStore;
-
-// RFIDReturn read_rfid_flash()
-// {
-// }
 
 // Main Function
 void main(void)
@@ -308,20 +264,37 @@ void main(void)
     // Temp values for buffering ADC Voltage and Current
     uint32_t temp_v;
     uint32_t temp_c;
+    uint8_t data[16];
+
+    int i;
 
     // Stop WDT
     WDT_hold(WDT_BASE);
 
     // Call Init Functions
     // Init Flash
+     for (i=0;i<16;i++) {
+         rfidData[i]=30+i;
+     }
+
     init_flash();
 
-    write_flash();
+    write_rfid_flash(rfidData, (uint8_t *) (FLOC+32) );
 
-    read_flash();
+     for (i=0;i<16;i++) {
+           data[i]=  * (uint8_t *) (FLOC+32+i);
+       }
+
+
 
     // Read flash, to global variables
-    // flash_read();
+    write_flash();
+    int b[30] = {};
+
+    for ( i = 0; i < 30; i++){
+        b[i] = *(uint8_t *) (FLOC + 16 + i);
+
+    }
 
     // Init GPIO
     init_gpio();
@@ -334,16 +307,16 @@ void main(void)
 
     Timer_A_outputPWMParam outputPWMConfig = {
             TIMER_A_CLOCKSOURCE_SMCLK,          // SMCLK Clock Source
-            0x18,      // SMCLK/64 (0x20) = 4.096 MHz
-            1024,                       // 5ms
+            TIMER_A_CLOCKSOURCE_DIVIDER_8,      // SMCLK/64 (0x20) = 4.096 MHz
+            10240,                       // 5ms
             TIMER_A_CAPTURECOMPARE_REGISTER_1,  // Output on TA0.1
             TIMER_A_OUTPUTMODE_RESET_SET,       // Generate PWM
-            TIMER_DUTY_CYCLE                    // 75% Duty Cycle
+            5120                 // 75% Duty Cycle
      };
 
 
-
-    CS_initClockSignal(CS_SMCLK, CS_CLOCK_DIVIDER_1);
+    CS_setupDCO(CS_INTERNAL_RESISTOR);
+    CS_initClockSignal(CS_SMCLK, CS_CLOCK_DIVIDER_16);
 
     // Setting up P1.5 as TA0.1 for PWM signal generation
     GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1,
@@ -461,6 +434,7 @@ void main(void)
             {
                 // Switch values to new TX value
                 polarity = CMDDataPtr[0];
+                write_flash();
                 // flash_polarity = RXData[0]; //Put it in flash (Function, instead of a value)
                 if (polarity)
                 {
@@ -492,6 +466,8 @@ void main(void)
             //                                                 = 1001010100101000
 
             currentLimit = (CMDDataPtr[1] << 8) | CMDDataPtr[2];
+                write_flash();
+
             // if(currentLimit != flash_currentLimit)
             // flash_currentLimit = currentLimit;
             // No other adjustment needed; polling will access the currentLimit variable
@@ -507,16 +483,22 @@ void main(void)
         {
 
             vOffset1 = (RXData[3] << 8) | RXData[4];
+                write_flash();
+
         }
         if (CMDLength >= 7)
         {
 
             vOffset2 = (RXData[5] << 8) | RXData[6];
+                write_flash();
+
         }
         if (CMDLength >= 1)
         {
 
             vOffset3 = (RXData[7] << 8) | RXData[8];
+                write_flash();
+
         }
 
         if (CMDLength == 26)
